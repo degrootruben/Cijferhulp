@@ -1,0 +1,15 @@
+{
+  "name": "cijferhulp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ruben de Groot",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^15.12.5",
+    "typescript": "^4.3.4"
+  }
+}
