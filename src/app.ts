@@ -18,33 +18,8 @@ var formBody: any = [];
 
 app.listen(PORT, () => {
     console.log("Running on port " + PORT);
-
+    // TODO: Server HTTPS maken voor veiligheid
     getAccesToken(process.env.SCHOOL, process.env.USERNAME_SOM, process.env.PASSWORD).then(accessToken => console.log(accessToken));
-
-    // fetch("https://api.somtoday.nl/rest/v1/resultaten/huidigVoorLeerling/5148154837", {
-    //     method: "GET",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //         "Accept": "application/json",
-    //         "Authorization": "Bearer " + accesToken,
-    //         "Range": "items=0-50"
-    //     },
-    // })
-    // .then((response: Response) => response.json())
-    // .then((data: any) => { writeFileSync("./res.json", JSON.stringify(data)) })
-    // .catch(error => console.log(error));
-
-    // // fetch("https://api.somtoday.nl/rest/v1/leerlingen/5148154837", {
-    // //     method: "GET",
-    // //     headers: {
-    // //         "Accept": "application/json",
-    // //         "Authorization": "Bearer " + accesToken
-    // //     }
-    // // })
-    // // .then(res => res.json())
-    // // .then(data => console.log(data))
-    // // .catch(error => console.log(error))
-
 });
 
 app.post("/api/note", (req, res) => {
