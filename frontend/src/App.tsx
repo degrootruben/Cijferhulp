@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button, EditableText, Toaster, Toast, IToastProps, Colors, Navbar, Switch, Alignment } from "@blueprintjs/core";
 import { Grid } from "@material-ui/core";
 
+// TODO: Web app / manifest aanpassen
+
 export default function App() {
   const [noteName, setNoteName] = useState("Cijfer 1");
   const [note, setNote] = useState("");
@@ -12,7 +14,7 @@ export default function App() {
   const [navbarStyle, setNavbarStyle] = useState<React.CSSProperties>({});
 
   const toaster = useRef<Toaster>(null);
-
+  
   useEffect(() => {
     if (darkMode) {
       setNavbarStyle({ "backgroundColor": Colors.DARK_GRAY4 });
