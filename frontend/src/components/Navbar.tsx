@@ -10,7 +10,7 @@ interface Props {
 const Navbar: React.FC<Props> = ({ darkMode, setDarkMode, style }) => {
     return (
         <div className="Navbar" style={style}>
-            <Switch className="Switch" label="Dark mode" checked={darkMode} onChange={() => setDarkMode(!darkMode)}></Switch>
+            <Switch className="Switch" label={`${darkMode ? "🌕" : "🌞"}`} checked={darkMode} onChange={() => setDarkMode(!darkMode)}></Switch>
         </div>
     )
 };
