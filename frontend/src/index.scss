@@ -6,7 +6,7 @@ body {
 
 @media screen and (max-width: 690px) {
   .Cijfer {
-    margin-top: 50px;
+    margin-top: 80px;
     margin-left: 25px;
     margin-right: 25px;
   }
@@ -14,28 +14,25 @@ body {
 
 @media screen and (min-width: 690px) {
   .Cijfer {
-    margin-top: 50px;
+    margin-top: 80px;
     margin-left: 200px;
     margin-right: 200px;
   }
 }
 
-.addNoteTextBox {
+.add-note-textbox {
   width: 100%;
 }
 
-.deleteAddNote {
+.clear-add-note-form-button {
   float: right;
 }
 
-.Navbar {
-  padding-top: 16px;
-  width: 100%;
-  height: 50px;
+.dark-mode-switch {
+  margin: 8px;
+  padding: 5px 10px;
 }
 
-.Switch {
-  margin-left: 10px;
-  width: 60px;
-  height: 18px;
+.navbar-button {
+  margin: 8px;
 }
