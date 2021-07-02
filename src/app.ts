@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import { fetchAuthorization, getGrades, getUserID } from "./api/somtoday";
+import { fetchAuthorization, getMarks, getUserID } from "./api/somtoday";
+import marks from "./routes/marks";
 import dotenv from "dotenv";
 import { appendFile } from "fs";
 dotenv.config();
@@ -19,29 +20,31 @@ app.listen(PORT, async () => {
     // TODO: Error handling netjes maken
     // TODO: Promises in somtoday code mooi maken ook met errors
 
-    const data = await fetchAuthorization(process.env.SCHOOL, process.env.USERNAME_SOM, process.env.PASSWORD);
-    const accessToken: string = await data?.accessToken;
-    const baseURL: string = await data?.baseURL;
-    const userID = await getUserID(baseURL, accessToken);
-    const grades = await getGrades(baseURL, accessToken, userID);
-    //console.log(grades);
-    let i = 0;
-    grades.forEach((grade: any) => {
-        appendFile("./res.json", JSON.stringify(grade) + ",", (err) => {
-            if (err) throw err;
-            console.log("save");
-        });
-        if (grade.type === "Toetskolom") {
-            i++;
-            console.log({
-                "Vak": grade.vak.naam,
-                "Naam": grade.omschrijving,
-                "Cijfer": grade.resultaat,
-            });
-        }
-    });
-    console.log(i);
+    // const data = await fetchAuthorization(process.env.SCHOOL, process.env.USERNAME_SOM, process.env.PASSWORD);
+    // const accessToken: string = await data?.accessToken;
+    // const baseURL: string = await data?.baseURL;
+    // const userID = await getUserID(baseURL, accessToken);
+    // const marks = await getMarks(baseURL, accessToken, userID);
+    // //console.log(Marks);
+    // let numberOfMarksFound = 0;
+    // marks.forEach((mark: any) => {
+    //     appendFile("./res.json", JSON.stringify(mark) + ",", (err) => {
+    //         if (err) throw err;
+    //         console.log("save");
+    //     });
+    //     if (mark.type === "Toetskolom") {
+    //         numberOfMarksFound++;
+    //         console.log({
+    //             "Vak": mark.vak.naam,
+    //             "Naam": mark.omschrijving,
+    //             "Cijfer": mark.resultaat,
+    //         });
+    //     }
+    // });
+    // console.log(numberOfMarksFound);
 });
+
+app.use("/api/marks", marks);
 
 app.post("/api/note", (req, res) => {
     console.log(req.body);
@@ -50,6 +53,6 @@ app.post("/api/note", (req, res) => {
 });
 
 app.use((req, res) => {
-    res.send("404 - Deze pagina bestaat niet!");
+    res.status(404).send(JSON.stringify({ "error": "Not found, probably using wrong route" }));
     res.end();
 });

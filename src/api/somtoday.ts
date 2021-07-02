@@ -70,7 +70,9 @@ export const getUserID = (baseURL: string, accessToken: string): Promise<number>
         .catch(err => console.log(err));
 }
 
-export const getGrades = async (baseURL: string, accessToken: string, userID: number): Promise<Array<Object>> => {
+export const getMarks = async (baseURL: string, accessToken: string, userID: number): Promise<Array<Object>> => {
+    // TODO: Cijfers chill filteren op basis van parameters
+    
     let responseLength: number = 0;
     let totalGradeList: Array<Object> = [];
     let rangeParamater: number = 0;
@@ -86,9 +88,9 @@ export const getGrades = async (baseURL: string, accessToken: string, userID: nu
                 }
             });
             const data: any = await res.json();
-            const gradeArray: Array<Object> = data?.items;
-            totalGradeList = totalGradeList.concat(gradeArray);
-            responseLength = gradeArray.length;
+            const markArray: Array<Object> = data?.items;
+            totalGradeList = totalGradeList.concat(markArray);
+            responseLength = markArray.length;
             rangeParamater++;
         } catch (err) {
             console.log(err);
