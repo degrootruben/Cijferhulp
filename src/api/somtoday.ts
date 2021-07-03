@@ -70,11 +70,18 @@ export const getUserID = (baseURL: string, accessToken: string): Promise<number>
         .catch(err => console.log(err));
 }
 
-export const getMarks = async (baseURL: string, accessToken: string, userID: number): Promise<Array<Object>> => {
-    // TODO: Cijfers chill filteren op basis van parameters
+type MarkParameters = {
+    normal: boolean,
+    average: boolean,
+    year: number
+};
+
+export const getMarks = async (baseURL: string, accessToken: string, userID: number, parameters: MarkParameters): Promise<Array<Object>> => {
+    // TODO: Opstellen hoe een grade eruit ziet in de database, dus welke waarden etc.
     
     let responseLength: number = 0;
-    let totalGradeList: Array<Object> = [];
+    let totalMarkList: Array<Object> = [];
+    let filteredMarkList: Array<Object> = [];
     let rangeParamater: number = 0;
 
     do {
@@ -89,7 +96,7 @@ export const getMarks = async (baseURL: string, accessToken: string, userID: num
             });
             const data: any = await res.json();
             const markArray: Array<Object> = data?.items;
-            totalGradeList = totalGradeList.concat(markArray);
+            totalMarkList = totalMarkList.concat(markArray);
             responseLength = markArray.length;
             rangeParamater++;
         } catch (err) {
@@ -98,5 +105,23 @@ export const getMarks = async (baseURL: string, accessToken: string, userID: num
 
     } while (responseLength >= 99);
 
-    return totalGradeList;
+    totalMarkList.forEach((mark: any) => {
+        if (mark.leerjaar == parameters.year) {
+            if (mark.type == "Toetskolom") {
+                if (parameters.normal == true) {
+                    filteredMarkList.push({ "mark": mark.geldendResultaat, "weighting": mark.weging, "examWeighting": mark.examenWeging, "type": mark.type, "year": mark.leerjaar, "period": mark.periode, "description": mark.omschrijving, "subject": mark.vak.naam, "subjectAbbreviation": mark.vak.afkorting, "inputDate": mark.datumInvoer, "isExamenDossierResultaat": mark.isExamendossierResultaat, "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, "origin": "som" });
+                }
+            } else if (mark.type == "RapportGemiddeldeKolom") {
+                if (parameters.average == true) {
+                    filteredMarkList.push({ "mark": mark.geldendResultaat, "type": mark.type, "year": mark.leerjaar, "period": mark.periode, "subject": mark.vak.naam, "subjectAbbreviation": mark.vak.afkorting, "inputDate": mark.datumInvoer, "isExamenDossierResultaat": mark.isExamendossierResultaat, "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, "origin": "som" });
+                }
+            }
+        } else {
+            if (filteredMarkList.length <= 0) {
+                filteredMarkList.push({ "error": "Geen cijfers gevonden voor dit leerjaar" });
+            }
+        }
+    });
+
+    return filteredMarkList;
 }
