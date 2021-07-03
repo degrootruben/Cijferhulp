@@ -109,11 +109,32 @@ export const getMarks = async (baseURL: string, accessToken: string, userID: num
         if (mark.leerjaar == parameters.year) {
             if (mark.type == "Toetskolom") {
                 if (parameters.normal == true) {
-                    filteredMarkList.push({ "mark": mark.geldendResultaat, "weighting": mark.weging, "examWeighting": mark.examenWeging, "type": mark.type, "year": mark.leerjaar, "period": mark.periode, "description": mark.omschrijving, "subject": mark.vak.naam, "subjectAbbreviation": mark.vak.afkorting, "inputDate": mark.datumInvoer, "isExamenDossierResultaat": mark.isExamendossierResultaat, "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, "origin": "som" });
+                    filteredMarkList.push({ "mark": mark.geldendResultaat, 
+                                            "weighting": mark.weging, 
+                                            "examWeighting": mark.examenWeging, 
+                                            "type": mark.type, 
+                                            "year": mark.leerjaar, 
+                                            "period": mark.periode, 
+                                            "description": mark.omschrijving, 
+                                            "subject": mark.vak.naam, 
+                                            "subjectAbbreviation": mark.vak.afkorting, 
+                                            "inputDate": mark.datumInvoer, 
+                                            "isExamenDossierResultaat": mark.isExamendossierResultaat, 
+                                            "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, 
+                                            "origin": "som" });
                 }
             } else if (mark.type == "RapportGemiddeldeKolom") {
                 if (parameters.average == true) {
-                    filteredMarkList.push({ "mark": mark.geldendResultaat, "type": mark.type, "year": mark.leerjaar, "period": mark.periode, "subject": mark.vak.naam, "subjectAbbreviation": mark.vak.afkorting, "inputDate": mark.datumInvoer, "isExamenDossierResultaat": mark.isExamendossierResultaat, "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, "origin": "som" });
+                    filteredMarkList.push({ "mark": mark.geldendResultaat, 
+                                            "type": mark.type, 
+                                            "year": mark.leerjaar, 
+                                            "period": mark.periode, 
+                                            "subject": mark.vak.naam, 
+                                            "subjectAbbreviation": mark.vak.afkorting, 
+                                            "inputDate": mark.datumInvoer, 
+                                            "isExamenDossierResultaat": mark.isExamendossierResultaat, 
+                                            "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, 
+                                            "origin": "som" });
                 }
             }
         } else {
