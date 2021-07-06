@@ -10,6 +10,7 @@ Alles onder `src/` is back-end code, in Typescript
 Alles onder `frontend/` is de React front-end code, gemaakt met cra
 
 In het `.env` bestand moet nu voor dev purposes deze parameters worden gegeven:
+```
     SCHOOL=
     USERNAME_SOM=
     PASSWORD=
@@ -19,4 +20,4 @@ In het `.env` bestand moet nu voor dev purposes deze parameters worden gegeven:
     PGPASSWORD=postgres
     PGDATABASE=cijferhulp
     PGPORT=5432
-
+```
