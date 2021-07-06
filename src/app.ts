@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import { fetchAuthorization, getMarks, getUserID } from "./api/somtoday";
 import marks from "./routes/marks";
 import dotenv from "dotenv";
 import { appendFile } from "fs";
+import start from "./database";
 dotenv.config();
 
 const PORT = process.env.PORT || 8000;
@@ -16,32 +16,10 @@ var formBody: any = [];
 
 app.listen(PORT, async () => {
     console.log("Running on port " + PORT);
+    start();
     // TODO: Server HTTPS maken voor veiligheid
     // TODO: Error handling netjes maken
     // TODO: Promises in somtoday code mooi maken ook met errors
-
-    // const data = await fetchAuthorization(process.env.SCHOOL, process.env.USERNAME_SOM, process.env.PASSWORD);
-    // const accessToken: string = await data?.accessToken;
-    // const baseURL: string = await data?.baseURL;
-    // const userID = await getUserID(baseURL, accessToken);
-    // const marks = await getMarks(baseURL, accessToken, userID);
-    // //console.log(Marks);
-    // let numberOfMarksFound = 0;
-    // marks.forEach((mark: any) => {
-    //     appendFile("./res.json", JSON.stringify(mark) + ",", (err) => {
-    //         if (err) throw err;
-    //         console.log("save");
-    //     });
-    //     if (mark.type === "Toetskolom") {
-    //         numberOfMarksFound++;
-    //         console.log({
-    //             "Vak": mark.vak.naam,
-    //             "Naam": mark.omschrijving,
-    //             "Cijfer": mark.resultaat,
-    //         });
-    //     }
-    // });
-    // console.log(numberOfMarksFound);
 });
 
 app.use("/api/marks", marks);

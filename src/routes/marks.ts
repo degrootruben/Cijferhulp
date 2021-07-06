@@ -1,6 +1,6 @@
 import express from "express";
 import { appendFile } from "fs";
-import * as somtoday from "../api/somtoday";
+import * as somtoday from "../somtoday";
 
 const router = express.Router();
 
