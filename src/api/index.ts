@@ -5,6 +5,6 @@ import auth from "./auth/auth.routes";
 const router = express.Router();
 
 router.use("/marks", marks);
-router.use("/marks", auth);
+router.use("/auth", auth);
 
 export default router;
