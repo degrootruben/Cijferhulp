@@ -12,6 +12,8 @@ router.post("/login", (req, res) => {
 /* Register a new user */
 router.post("/register", async (req, res) => {
     // TODO: Register with confirmation mail
+    // TODO: Hash passwords
+    // TODO: Return session token
 
     const id = uuidv4();
     const { email, password, name } = req.body;
