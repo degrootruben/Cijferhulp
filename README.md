@@ -9,4 +9,4 @@ Alles onder `src/` is back-end code, in Typescript
 
 Alles onder `frontend/` is de React front-end code, gemaakt met cra
 
-Het `.env` bestand moet nu voor dev purposes er uit zien als .env.sample.
+Het `.env` bestand moet nu voor dev purposes er uit zien als `.env.sample`.
