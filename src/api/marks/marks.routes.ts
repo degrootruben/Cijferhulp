@@ -8,16 +8,20 @@ const router = express.Router();
 router.get("/som", async (req, res) => {
     const { school, username, password, normal, average, year } = req.body;
 
-    const authorizationData = await somtoday.fetchAuthorization(school, username, password);
-    const accessToken: string = await authorizationData?.accessToken;
-    const baseURL: string = await authorizationData?.baseURL;
+    if (!school || !username || !password || !normal || !average || !year) {
+        res.status(400).send({ "error": "Fields missing in body." });
+        res.end();
+    } else {
+        const authorizationData = await somtoday.fetchAuthorization(school, username, password);
+        const accessToken: string = await authorizationData?.accessToken;
+        const baseURL: string = await authorizationData?.baseURL;
 
-    const userID = await somtoday.getUserID(baseURL, accessToken);
-    const marks = await somtoday.getMarks(baseURL, accessToken, userID, { normal, average, year });
+        const userID = await somtoday.getUserID(baseURL, accessToken);
+        const marks = await somtoday.getMarks(baseURL, accessToken, userID, { normal, average, year });
 
-    res.header({ "Content-Type": "application/json" });
-    res.send(JSON.stringify(marks));
-    res.end();
+        res.send(JSON.stringify(marks));
+        res.end();
+    }
 });
 
 /* Get marks from database */
@@ -28,7 +32,7 @@ router.get("/", async (req, res) => {
         const response = await db.getMarks(req.body.user_id);
         res.status(200).send({ "marks": response.rows });
     } catch (error) {
-        res.status(500).send({ "error": "Something went wrong while trying to get marks from database. "});
+        res.status(500).send({ "error": "Something went wrong while trying to get marks from database. " });
     }
 });
 
