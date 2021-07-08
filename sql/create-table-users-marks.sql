@@ -1,11 +1,9 @@
 CREATE TABLE users(
-    id                              TEXT NOT NULL PRIMARY KEY,
-    email                           VARCHAR(320) NOT NULL,
+    id                              TEXT NOT NULL PRIMARY KEY UNIQUE,
+    email                           VARCHAR(320) NOT NULL UNIQUE,
     password                        TEXT NOT NULL,
     name                            VARCHAR(200),
     created_at                      TIMESTAMP NOT NULL,
-
-    UNIQUE(id, email)
 );
 
 CREATE TABLE marks(
