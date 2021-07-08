@@ -113,16 +113,16 @@ export const getMarks = async (baseURL: string, accessToken: string, userID: num
                 if (parameters.normal == true) {
                     filteredMarkList.push({ "mark": mark.geldendResultaat, 
                                             "weighting": mark.weging, 
-                                            "examWeighting": mark.examenWeging, 
+                                            "exam_weighting": mark.examenWeging, 
                                             "type": mark.type, 
                                             "year": mark.leerjaar, 
                                             "period": mark.periode, 
                                             "description": mark.omschrijving, 
                                             "subject": mark.vak.naam, 
-                                            "subjectAbbreviation": mark.vak.afkorting, 
-                                            "inputDate": mark.datumInvoer, 
-                                            "isExamenDossierResultaat": mark.isExamendossierResultaat, 
-                                            "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, 
+                                            "subject_abbreviation": mark.vak.afkorting, 
+                                            "input_date": mark.datumInvoer, 
+                                            "is_examendossier_resultaat": mark.isExamendossierResultaat, 
+                                            "is_voortgangsdossier_resultaat": mark.isVoortgangsdossierResultaat, 
                                             "origin": "som" });
                 }
             } else if (mark.type == "RapportGemiddeldeKolom") {
@@ -132,10 +132,10 @@ export const getMarks = async (baseURL: string, accessToken: string, userID: num
                                             "year": mark.leerjaar, 
                                             "period": mark.periode, 
                                             "subject": mark.vak.naam, 
-                                            "subjectAbbreviation": mark.vak.afkorting, 
-                                            "inputDate": mark.datumInvoer, 
-                                            "isExamenDossierResultaat": mark.isExamendossierResultaat, 
-                                            "isVoortgangsdossierResultaat": mark.isVoortgangsdossierResultaat, 
+                                            "subject_abbreviation": mark.vak.afkorting, 
+                                            "input_date": mark.datumInvoer, 
+                                            "is_examendossier_resultaat": mark.isExamendossierResultaat, 
+                                            "is_voortgangsdossier_resultaat": mark.isVoortgangsdossierResultaat, 
                                             "origin": "som" });
                 }
             }
