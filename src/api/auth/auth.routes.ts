@@ -6,23 +6,28 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 
 /* Login to website */
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
     const { email, password } = req.body;
+    const err = "Email or password wrong";
 
     try {
-        const dbPassword = await db.getUserPassword(email);
-
-        if (await bcrypt.compare(password, dbPassword)) {
-            // TODO: Also get name from db if there is a name and store in session cookie
-
-            req.session.user = email;
-            res.status(200).send({ "success": "User succesfully logged in." });
+        if (!(await db.emailExists(req.session.user))) {
+            res.status(400).send({ "error": err });
         } else {
-            res.status(403).send({ "error": "Wrong password." });
+            const dbPassword = await db.getUserPassword(email);
+
+            if (await bcrypt.compare(password, dbPassword)) {
+                // TODO: Also get name from db if there is a name and store in session cookie
+                const userId = await db.getUserID(email);
+                req.session.user = userId;
+                res.status(200).send({ "success": "User succesfully logged in", "user_id": userId });
+            } else {
+                res.status(400).send({ "error": err });
+            }
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "error": "Something went wrong while trying to login user." });
+        res.status(500).send({ "error": "Something went wrong while trying to login user" });
     }
 });
 
@@ -33,7 +38,7 @@ router.post("/register", async (req, res) => {
     // TODO: Als er een name is opgegeven deze ook meegeven in session token.
 
     if (!req.body.email || !req.body.password) {
-        res.status(400).send({ "error": "Fields missing on body." });
+        res.status(400).send({ "error": "Fields missing on body" });
     } else {
         try {
             const id = uuidv4();
@@ -46,13 +51,13 @@ router.post("/register", async (req, res) => {
 
                 await db.insertUser(id, email, password, name, createdAt);
                 req.session.user = email;
-                res.status(200).send({ "success": "New user registered." });
+                res.status(200).send({ "success": "New user registered" });
             } else {
-                res.status(400).send({ "error": "A user with that email address already exists." });
+                res.status(400).send({ "error": "A user with that email address already exists" });
             }
         } catch (error) {
             console.error(error);
-            res.status(500).send({ "error": "Error while trying to register user. " });
+            res.status(500).send({ "error": "Error while trying to register user" });
         }
         res.end();
     }
