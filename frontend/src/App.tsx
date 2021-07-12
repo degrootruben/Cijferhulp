@@ -1,7 +1,10 @@
 import React, { useState, useRef } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ProvideAuth } from "./hooks/provide-auth";
 import { Toaster, Toast, IToastProps } from "@blueprintjs/core";
-import { AddMarkForm } from "./components/AddMarkForm";
+import { MarkPage } from "./components/Mark/MarkPage";
 import { Navbar } from "./components/Navbar";
+import { Login } from "./components/Login";
 
 // TODO: Web app / manifest aanpassen
 
@@ -11,18 +14,6 @@ export const App: React.FC<{}> = () => {
 
   const toasts: Toast[] = [];
   const toaster = useRef<Toaster>(null);
-
-  const cookieExists = (cookieName: string): boolean => {
-    if (typeof (cookieName) == "string" && cookieName !== "") {
-      const cookies = document.cookie.split(";");
-      for (let i = 0; i < cookies.length; i++) {
-        if (cookies[i].trim().startsWith(cookieName)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
 
   const addToast = (props: IToastProps) => {
     if (props.timeout) {
@@ -34,10 +25,19 @@ export const App: React.FC<{}> = () => {
   }
 
   return (
-    <div className={`App ${darkMode ? "bp3-dark" : ""}`}>
-      <Navbar darkMode={darkMode} setDarkMode={setDarkMode}/>
-      <AddMarkForm addToast={addToast}/>
-      <Toaster maxToasts={3} canEscapeKeyClear={true} ref={toaster}>{toasts.map(toast => <Toast {...toast} />)}</Toaster>
-    </div>
+    <Router>
+      <ProvideAuth>
+        <div className={`App ${darkMode ? "bp3-dark" : ""}`}>
+          <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+
+          <Switch>
+            <Route exact path="/"><MarkPage addToast={addToast} /></Route>
+            <Route exact path="/login"><Login addToast={addToast} /></Route>
+          </Switch>
+
+          <Toaster maxToasts={3} canEscapeKeyClear={true} ref={toaster}>{toasts.map(toast => <Toast {...toast} />)}</Toaster>
+        </div>
+      </ProvideAuth>
+    </Router>
   );
 }
