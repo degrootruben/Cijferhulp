@@ -1,5 +1,6 @@
 declare module Express {
     export interface Request {
-        session: any;
+        session: any,
+        user: any
     }
 }
