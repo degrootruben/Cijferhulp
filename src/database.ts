@@ -29,7 +29,7 @@ export const insertMarks = async ({ mark, weighting, examWeighting, type, year, 
         const response = await pool.query("INSERT INTO marks (mark, weighting, exam_weighting, type, year, period, description, subject, subject_abbreviation, input_date, is_examendossier_resultaat, is_voortgangsdossier_resultaat, origin, user_id) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)", [mark, weighting, examWeighting, type, year, period, description, subject, subjectAbbreviation, inputDate, isExamendossierResultaat, isVoortgangsdossierResultaat, origin, userId]);
         return response;
     } catch (error) {
-        throw error;
+        throw "DB: " + error;
     }
 }
 
@@ -40,7 +40,7 @@ export const getMarks = async (userId: string) => {
         const response = await pool.query("SELECT * FROM marks WHERE user_id = $1", [userId])
         return response;
     } catch (error) {
-        throw error;
+        throw "DB: " + error;
     }
 }
 
@@ -52,26 +52,38 @@ export const insertUser = async (id: string, email: string, password: string, na
         const response = await pool.query("INSERT INTO users (id, email, password, name, created_at) VALUES($1, $2, $3, $4, $5)", [id, email, password, name, createdAt]);
         return response;
     } catch (error) {
-        throw error;
+        throw "DB: " + error;
     }
 }
 
 export const getUserPassword = async (email: string): Promise<string> => {
     try {
         const response = await pool.query("SELECT password FROM users WHERE email=$1", [email]);
-        const password: string = await response.rows[0].password;
-        return password;
+        if(response.rowCount > 0) {
+            const password: string = await response.rows[0].password;
+            return password;
+        } else {
+            throw "Error";
+        }
     } catch (error) {
-        throw error;
+        throw "DB: " + error;
     }
 }
 
-export const emailExists = async (email: string): Promise<boolean> => {
+export const emailExists = async (userId: string): Promise<boolean> => {
     try {
-        const response = await pool.query("SELECT email FROM users WHERE email=$1", [email]);
+        const response = await pool.query("SELECT email FROM users WHERE id=$1", [userId]);
         return response.rowCount > 0;
     } catch (error) {
-        throw (error);
+        throw "DB: " + error;
     }
 }
 
+export const getUserID = async (email: string): Promise<string> => {
+    try {
+        const response = await pool.query("SELECT id FROM users WHERE email=$1", [email]);
+        return response.rows[0].id;
+    } catch (error) {
+        throw "DB: " + error;
+    }
+}
