@@ -4,27 +4,45 @@ body {
   margin: 0;
 }
 
+// Big screen
+@media screen and (min-width: 690px) {
+  .Marks {
+    margin-top: 80px;
+    margin-left: 300px;
+    margin-right: 300px;
+  }
+
+  .Login {
+    margin-top: 80px;
+    margin-left: 300px;
+    margin-right: 300px;
+  }
+}
+
+// Small screen
 @media screen and (max-width: 690px) {
-  .Cijfer {
+  .Marks {
+    margin-top: 80px;
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+
+  .Login {
     margin-top: 80px;
     margin-left: 25px;
     margin-right: 25px;
   }
 }
 
-@media screen and (min-width: 690px) {
-  .AddMarkForm {
-    margin-top: 80px;
-    margin-left: 200px;
-    margin-right: 200px;
-  }
+.login-button {
+  float: right;
 }
 
-.add-note-textbox {
+.add-mark-textbox {
   width: 100%;
 }
 
-.clear-add-note-form-button {
+.clear-add-mark-form-button {
   float: right;
 }
 
