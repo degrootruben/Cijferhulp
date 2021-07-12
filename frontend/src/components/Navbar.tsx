@@ -21,7 +21,7 @@ export const Navbar: React.FC<Props> = ({ darkMode, setDarkMode }) => {
 
     return (
         <div className="Navbar">
-            <NavbarBlue style={navbarStyle} fixedToTop={true}>
+            <NavbarBlue style={navbarStyle} fixedToTop={false}>
                 <NavbarBlue.Group align={Alignment.LEFT}>
                     <NavbarBlue.Heading>Cijferhulp</NavbarBlue.Heading>
                 </NavbarBlue.Group>
