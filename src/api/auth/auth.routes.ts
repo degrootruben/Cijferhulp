@@ -48,7 +48,7 @@ router.post("/register", async (req, res) => {
                 req.session.user = email;
                 res.status(200).send({ "success": "New user registered." });
             } else {
-                res.status(400).send({ "error": "An user with that email address already exists." });
+                res.status(400).send({ "error": "A user with that email address already exists." });
             }
         } catch (error) {
             console.error(error);
