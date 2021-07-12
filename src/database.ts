@@ -56,4 +56,23 @@ export const insertUser = async (id: string, email: string, password: string, na
     }
 }
 
+export const getUserPassword = async (email: string): Promise<string> => {
+    try {
+        const response = await pool.query("SELECT password FROM users WHERE email=$1", [ email ]);
+        const password: string = await response.rows[0].password;
+        return password;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const emailExists = async (email: string): Promise<boolean> => {
+    try {
+        const response = await pool.query("SELECT email FROM users WHERE email=$1", [email]);
+        const emailExists: boolean = response.rowCount > 0;
+        return emailExists;
+    } catch (error) {
+        throw (error);
+    }
+}
 
