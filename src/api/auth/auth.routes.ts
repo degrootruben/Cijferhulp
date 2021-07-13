@@ -70,14 +70,13 @@ router.post("/register", async (req, res) => {
             console.error(error);
             res.status(500).send({ "error": "Error while trying to register user" });
         }
-        res.end();
     }
 });
 
 /* Logout user */
 router.get("/logout", (req, res) => {
     req.session.reset();
-    res.status(200).send({ "success": "User logged out." });
+    res.status(200).send({ "success": "User logged out" });
 });
 
 export default router;

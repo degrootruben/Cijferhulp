@@ -10,35 +10,41 @@ router.post("/som", async (req, res) => {
     const { school, username, password, normal, average, year } = req.body;
 
     if (!school || !username || !password || !normal || !average || !year) {
-        res.status(400).send({ "error": "Fields missing in body." });
+        res.status(400).send({ "error": "Fields missing in body" });
         res.end();
     } else {
-        const authorizationData = await somtoday.fetchAuthorization(school, username, password);
-        const accessToken: string = await authorizationData?.accessToken;
-        const baseURL: string = await authorizationData?.baseURL;
+        try {
+            const authorizationData = await somtoday.fetchAuthorization(school, username, password);
+            const accessToken: string = await authorizationData?.accessToken;
+            const baseURL: string = await authorizationData?.baseURL;
 
-        const userID = await somtoday.getUserID(baseURL, accessToken);
-        const marks = await somtoday.getMarks(baseURL, accessToken, userID, { normal, average, year });
+            const userID = await somtoday.getUserID(baseURL, accessToken);
+            const marks = await somtoday.getMarks(baseURL, accessToken, userID, { normal, average, year });
 
-        res.send(JSON.stringify(marks));
+            res.status(200).send(JSON.stringify(marks));
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ "error": "Something went wrong while trying to fetch marks from SomToday" });
+        }
     }
 });
 
 /* Get marks from database */
-router.get("/:user_id", async (req, res) => {
+router.get("/:user_id", requireLogin, async (req, res) => {
     // TODO: Auth fixen zodat niet iedereen zomaar gegevens kan opvragen door middel van JWT.
     const paramsUserId = req.params.user_id;
 
     if (paramsUserId === req.session.user.user_id) {
         try {
             const response = await db.getMarks(req.params.user_id);
-            
+
             res.status(200).send({ "marks": response.rows });
         } catch (error) {
-            res.status(500).send({ "error": "Something went wrong while trying to get marks from database. " });
+            console.log(error);
+            res.status(500).send({ "error": "Something went wrong while trying to get marks from database" });
         }
     } else {
-        res.status(403).send({ "error" : "You are probably not logged in.", "not_logged_in" : true });
+        res.status(403).send({ "error": "You are probably not logged in", "not_logged_in": true });
     }
 });
 
@@ -48,9 +54,10 @@ router.post("/", async (req, res) => {
 
     // TODO: UserId nog meegeven + auth checken
     try {
-        const response = await db.insertMarks({ mark, weighting, examWeighting, type, year, period, description, subject, subjectAbbreviation, inputDate, isExamendossierResultaat, isVoortgangsdossierResultaat, origin, userId });
+        await db.insertMarks({ mark, weighting, examWeighting, type, year, period, description, subject, subjectAbbreviation, inputDate, isExamendossierResultaat, isVoortgangsdossierResultaat, origin, userId });
         res.status(200).send({ "success": "Mark inserted into database." });
     } catch (error) {
+        console.log(error);
         res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
     }
 });

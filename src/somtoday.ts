@@ -1,6 +1,7 @@
 import fetch, { Response } from "node-fetch";
 
 // TODO: Raw data eruit halen, zoals client_id en baseurls
+// TODO: Error handling -> throw errors etc.
 
 const getSchoolUUID = (schoolName: string | undefined) => {
     return fetch("https://servers.somtoday.nl/organisaties.json", {
