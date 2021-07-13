@@ -8,26 +8,33 @@ const router = express.Router();
 /* Login to website */
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
-    const err = "Email or password wrong";
+    const clientSideError = { "error": "Email or password wrong", "client_side": true };
 
     try {
-        if (!(await db.emailExists(req.session.user))) {
-            res.status(400).send({ "error": err });
+        if (!(await db.emailExists(email))) {
+            res.status(400).send(clientSideError);
         } else {
             const dbPassword = await db.getUserPassword(email);
 
             if (await bcrypt.compare(password, dbPassword)) {
-                // TODO: Also get name from db if there is a name and store in session cookie
-                const userId = await db.getUserID(email);
-                req.session.user = userId;
-                res.status(200).send({ "success": "User succesfully logged in", "user_id": userId });
+                const userId = await db.getUserId(email);
+                const user = { email, user_id: userId };
+                req.session.user = user;
+                
+                res.cookie("user_id", userId, {
+                    signed: false,
+                    maxAge: 120 * 60 * 1000,
+                    expires: new Date(new Date().setHours(new Date().getHours() + 2)),
+                    // TODO: set this when https: secure: true 
+                });
+                res.status(200).send({ "success": "User succesfully logged in" });
             } else {
-                res.status(400).send({ "error": err });
+                res.status(400).send(clientSideError);
             }
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "error": "Something went wrong while trying to login user" });
+        res.status(500).send({ "error": "Something went wrong while trying to login user", "server_side": true });
     }
 });
 
@@ -50,7 +57,11 @@ router.post("/register", async (req, res) => {
                 const createdAt = [date.getFullYear(), date.getMonth(), date.getDay()].join("/") + " " + [date.getHours(), date.getMinutes(), date.getSeconds()].join(":");
 
                 await db.insertUser(id, email, password, name, createdAt);
-                req.session.user = email;
+
+                const userId = id;
+                const user = { email, user_id: userId };
+                req.session.user = user;
+                
                 res.status(200).send({ "success": "New user registered" });
             } else {
                 res.status(400).send({ "error": "A user with that email address already exists" });
@@ -66,7 +77,7 @@ router.post("/register", async (req, res) => {
 /* Logout user */
 router.get("/logout", (req, res) => {
     req.session.reset();
-    res.redirect("/");
+    res.status(200).send({ "success": "User logged out." });
 });
 
 export default router;

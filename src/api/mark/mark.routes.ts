@@ -21,20 +21,24 @@ router.post("/som", async (req, res) => {
         const marks = await somtoday.getMarks(baseURL, accessToken, userID, { normal, average, year });
 
         res.send(JSON.stringify(marks));
-        res.end();
     }
 });
 
 /* Get marks from database */
-router.get("/:user_id", requireLogin, async (req, res) => {
+router.get("/:user_id", async (req, res) => {
     // TODO: Auth fixen zodat niet iedereen zomaar gegevens kan opvragen door middel van JWT.
+    const paramsUserId = req.params.user_id;
 
-    try {
-        const response = await db.getMarks(req.params.user_id);
-
-        res.status(200).send({ "marks": response.rows });
-    } catch (error) {
-        res.status(500).send({ "error": "Something went wrong while trying to get marks from database. " });
+    if (paramsUserId === req.session.user.user_id) {
+        try {
+            const response = await db.getMarks(req.params.user_id);
+            
+            res.status(200).send({ "marks": response.rows });
+        } catch (error) {
+            res.status(500).send({ "error": "Something went wrong while trying to get marks from database. " });
+        }
+    } else {
+        res.status(403).send({ "error" : "You are probably not logged in.", "not_logged_in" : true });
     }
 });
 
@@ -49,8 +53,6 @@ router.post("/", async (req, res) => {
     } catch (error) {
         res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
     }
-
-    res.end();
 });
 
 export default router;

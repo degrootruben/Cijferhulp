@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(sessions({
     cookieName: "session",
     secret: process.env.SESSION_SECRET || "SECRET",
-    duration: 90 * 60 * 1000,
+    duration: 120 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
     cookie: {
         httpOnly: true,

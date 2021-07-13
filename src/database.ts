@@ -70,16 +70,16 @@ export const getUserPassword = async (email: string): Promise<string> => {
     }
 }
 
-export const emailExists = async (userId: string): Promise<boolean> => {
+export const emailExists = async (email: string): Promise<boolean> => {
     try {
-        const response = await pool.query("SELECT email FROM users WHERE id=$1", [userId]);
+        const response = await pool.query("SELECT email FROM users WHERE email=$1", [email]);
         return response.rowCount > 0;
     } catch (error) {
         throw "DB: " + error;
     }
 }
 
-export const getUserID = async (email: string): Promise<string> => {
+export const getUserId = async (email: string): Promise<string> => {
     try {
         const response = await pool.query("SELECT id FROM users WHERE email=$1", [email]);
         return response.rows[0].id;
