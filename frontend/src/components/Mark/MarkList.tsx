@@ -34,7 +34,6 @@ export const MarkList: React.FC<Props> = ({ addToast }) => {
                     console.log(error);
                 }
             } else {
-                addToast({ intent: "danger", message: "Je bent niet ingelogd." })
                 history.push("/login");
             }
         }
