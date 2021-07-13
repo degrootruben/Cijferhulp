@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ProvideAuth } from "./hooks/provide-auth";
+import { ProvideAuth } from "./hooks/useAuth";
 import { Toaster, Toast, IToastProps } from "@blueprintjs/core";
 import { MarkPage } from "./components/Mark/MarkPage";
 import { Navbar } from "./components/Navbar";
@@ -28,7 +28,7 @@ export const App: React.FC<{}> = () => {
     <Router>
       <ProvideAuth>
         <div className={`App ${darkMode ? "bp3-dark" : ""}`}>
-          <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Navbar addToast={addToast} darkMode={darkMode} setDarkMode={setDarkMode} />
 
           <Switch>
             <Route exact path="/"><MarkPage addToast={addToast} /></Route>

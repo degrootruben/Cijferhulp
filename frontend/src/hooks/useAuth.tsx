@@ -1,4 +1,5 @@
-import React, { ReactChildren, ReactChild, useState, useContext, createContext } from "react";
+import React, { ReactChildren, ReactChild, useContext, createContext } from "react";
+import * as util from "../util";
 
 interface Props {
     children: ReactChildren | ReactChild
@@ -16,8 +17,6 @@ export const useAuth = () => {
 };
 
 const useProvideAuth = () => {
-    const [user, setUser] = useState(null);
-
     const login = (email: string, password: string) => {
         return fetch("http://localhost:8000/api/auth/login", {
             method: "POST",
@@ -28,7 +27,6 @@ const useProvideAuth = () => {
             body: JSON.stringify({ email, password })
         }).then(res => res.json())
             .then(data => {
-                if (data.user_id) setUser(data.user_id);
                 return data;
             })
             .catch(err => {
@@ -40,15 +38,29 @@ const useProvideAuth = () => {
 
     };
 
-    const signout = () => {
-        setUser(null);
+    const logout = () => {
+        if (util.getCookie("user_id") !== "") {
+            util.deleteCookie("user_id");
+
+            return fetch("http://localhost:8000/api/auth/logout", {
+                method: "GET",
+                credentials: "include",
+            }).then(res => res.json())
+                .then(data => {
+                    return data;
+                })
+                .catch(err => {
+                    throw err;
+                });
+        } else {
+            throw { "not_logged_in": true };
+        }
     };
 
     // Return the user object and auth methods
     return {
-        user,
         login,
         signup,
-        signout
+        logout
     };
 }

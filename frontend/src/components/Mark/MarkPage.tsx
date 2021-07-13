@@ -15,7 +15,7 @@ export const MarkPage: React.FC<Props> = ({ addToast }) => {
         <div className="Marks">
             <AddMarkForm addToast={addToast}/>
             <h1>Marks</h1>
-            <MarkList />
+            <MarkList addToast={addToast}/>
         </div>
     )
 }
