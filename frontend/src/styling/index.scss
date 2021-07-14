@@ -1,0 +1,51 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+@import "./variables";
+
+body {
+  margin: 0;
+}
+
+// Big screen
+@media screen and (min-width: 690px) {
+  .Marks {
+    margin-top: $margin-from-top;
+    margin-left: $big-screen-lr-margin;
+    margin-right: $big-screen-lr-margin;
+    padding: $inner-tb-padding $inner-lr-padding $inner-tb-padding $inner-lr-padding;
+  }
+
+  .Login {
+    margin-top: $margin-from-top;
+    margin-left: $big-screen-lr-margin;
+    margin-right: $big-screen-lr-margin;
+  }
+}
+
+// Small screen
+@media screen and (max-width: 690px) {
+  .Marks {
+    margin-top: $margin-from-top;
+    margin-left: $small-screen-lr-margin;
+    margin-right: $small-screen-lr-margin;
+  }
+
+  .Login {
+    margin-top: $margin-from-top;
+    margin-left: $small-screen-lr-margin;
+    margin-right: $small-screen-lr-margin;
+  }
+}
+
+.login-button {
+  float: right;
+}
+
+.dark-mode-switch {
+  margin: 8px;
+  padding: 5px 10px;
+}
+
+.navbar-button {
+  margin: 8px;
+}
+

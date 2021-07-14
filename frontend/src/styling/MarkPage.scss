@@ -1,0 +1,41 @@
+@import "./variables";
+
+// Big screen
+@media screen and (min-width: 690px) {
+    .Marks {
+        margin-top: $margin-from-top;
+        margin-left: $big-screen-lr-margin;
+        margin-right: $big-screen-lr-margin;
+        padding: $inner-tb-padding $inner-lr-padding $inner-tb-padding $inner-lr-padding;
+    }
+}
+
+// Small screen
+@media screen and (max-width: 690px) {
+    .Marks {
+        margin-top: $margin-from-top;
+        margin-left: $small-screen-lr-margin;
+        margin-right: $small-screen-lr-margin;
+    }
+}
+
+.MarkButtonGroup {
+    float: right;
+    margin-bottom: $inner-margin;
+}
+
+.MarkMenu {
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.AddMarkForm {
+    margin-bottom: 30px;
+}
+
+.add-mark-inputfield {
+    width: 100%;
+}
+
+.clear-mark-form-button {
+    float: right;
+}
