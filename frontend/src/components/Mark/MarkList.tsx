@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { IToastProps } from "@blueprintjs/core";
+import { Classes, IToastProps } from "@blueprintjs/core";
 import * as util from "../../util";
 
 interface Props {
@@ -10,8 +10,11 @@ interface Props {
 export const MarkList: React.FC<Props> = ({ addToast }) => {
     const [marks, setMarks] = useState([{}]);
     const history = useHistory();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
+
         const getMarks = async () => {
             const userId = util.getCookie("user_id");
 
@@ -29,6 +32,7 @@ export const MarkList: React.FC<Props> = ({ addToast }) => {
                     } else {
                         console.log(data.marks);
                         setMarks(data.marks);
+                        setLoading(false);
                     }
                 } catch (error) {
                     console.log(error);
@@ -42,7 +46,8 @@ export const MarkList: React.FC<Props> = ({ addToast }) => {
     }, [addToast, history]);
 
     return (
-        <div>
+        <div className={`${loading ? Classes.SKELETON : "MarkList"}`}>
+            <h1>Marks</h1>
             {marks.map((mark: any) => <p>{mark.description} {mark.mark} </p>)}
         </div>
     )
