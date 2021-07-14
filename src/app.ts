@@ -49,6 +49,7 @@ app.listen(PORT, async () => {
     // TODO: Server HTTPS maken voor veiligheid
     // TODO: Error handling netjes maken
     // TODO: Promises in somtoday code mooi maken ook met errors
+    // TODO: Vakken importerten vanuit som
 });
 
 process.on("exit", () => {
