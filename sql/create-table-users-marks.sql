@@ -3,7 +3,7 @@ CREATE TABLE users(
     email                           VARCHAR(320) NOT NULL UNIQUE,
     password                        TEXT NOT NULL,
     name                            VARCHAR(200),
-    created_at                      TIMESTAMP NOT NULL,
+    created_at                      TIMESTAMP NOT NULL
 );
 
 CREATE TABLE marks(
