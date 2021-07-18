@@ -17,9 +17,16 @@ interface Mark {
     userId: string
 }
 
-const pool: Pool = new Pool({
-    ssl: true
-});
+let pool: Pool | null = null;
+
+if (process.env.NODE_ENV === "production") {
+    pool = new Pool({
+        ssl: { rejectUnauthorized: false }
+    });
+} else {
+    pool = new Pool();
+}
+
 
 // TODO: Switch to knex.js
 // TODO: Abstract marks database queries from auth database queries
