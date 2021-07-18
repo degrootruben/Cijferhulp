@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf ./build && npx tsc",
+    "build": "rimraf ./build && npx -p typescript tsc",
     "start": "set NODE_ENV=production && npm run build && node build/app.js",
     "dev": "set NODE_ENV=development && nodemon",
     "heroku-postbuild": "set NPM_CONFIG_PRODUCTION=false && yarn --cwd frontend && yarn --cwd frontend build"
