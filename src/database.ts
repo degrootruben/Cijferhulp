@@ -1,4 +1,4 @@
-import { Pool, QueryResult } from "pg";
+import { Pool } from "pg";
 
 interface Mark {
     mark: number,
@@ -17,7 +17,9 @@ interface Mark {
     userId: string
 }
 
-const pool: Pool = new Pool();
+const pool: Pool = new Pool({
+    ssl: true
+});
 
 // TODO: Switch to knex.js
 // TODO: Abstract marks database queries from auth database queries
