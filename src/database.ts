@@ -35,7 +35,7 @@ export const insertMarks = async ({ mark, weighting, examWeighting, type, year, 
 
 export const getMarks = async (userId: string) => {
     try {
-        // TODO: Check of er wel een gebruik is met user_id = user_id
+        // TODO: Check of er wel een gebruiker is met user_id = user_id
 
         const response = await pool.query("SELECT * FROM marks WHERE user_id = $1", [userId])
         return response;

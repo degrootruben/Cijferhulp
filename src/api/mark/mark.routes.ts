@@ -31,14 +31,13 @@ router.post("/som", async (req, res) => {
 
 /* Get marks from database */
 router.get("/:user_id", requireLogin, async (req, res) => {
-    // TODO: Auth fixen zodat niet iedereen zomaar gegevens kan opvragen door middel van JWT.
-    const paramsUserId = req.params.user_id;
+    if (req.params.user_id === req.session.user.user_id) {
+        const paramsUserId = req.params.user_id;
 
-    if (paramsUserId === req.session.user.user_id) {
         try {
-            const response = await db.getMarks(req.params.user_id);
+            const response = await db.getMarks(paramsUserId);
 
-            res.status(200).send({ "marks": response.rows });
+            res.status(200).send({ "succes": "Succesfully retrieved marks", "marks": response.rows });
         } catch (error) {
             console.log(error);
             res.status(500).send({ "error": "Something went wrong while trying to get marks from database" });
@@ -49,16 +48,25 @@ router.get("/:user_id", requireLogin, async (req, res) => {
 });
 
 /* Post marks to database */
-router.post("/", async (req, res) => {
-    const { mark, weighting, exam_weighting: examWeighting, type, year, period, description, subject, subject_abbreviation: subjectAbbreviation, input_date: inputDate, is_examendossier_resultaat: isExamendossierResultaat, is_voortgangsdossier_resultaat: isVoortgangsdossierResultaat, origin, user_id: userId } = req.body;
+router.post("/", requireLogin, async (req, res) => {
+    if (req.body.user_id === req.session.user.user_id) {
+        const { mark, weighting, exam_weighting: examWeighting, type, year, period, description, subject, subject_abbreviation: subjectAbbreviation, is_examendossier_resultaat: isExamendossierResultaat, is_voortgangsdossier_resultaat: isVoortgangsdossierResultaat, origin, user_id: userId } = req.body;
 
-    // TODO: UserId nog meegeven + auth checken
-    try {
-        await db.insertMarks({ mark, weighting, examWeighting, type, year, period, description, subject, subjectAbbreviation, inputDate, isExamendossierResultaat, isVoortgangsdossierResultaat, origin, userId });
-        res.status(200).send({ "success": "Mark inserted into database." });
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
+        const date = new Date(Date.now());
+        const inputDate = [date.getFullYear(), date.getMonth(), date.getDate()].join("/") + " " + [date.getHours(), date.getMinutes(), date.getSeconds()].join(":");
+
+        try {
+            await db.insertMarks({ mark, weighting, examWeighting, type, year, period, description, subject, subjectAbbreviation, inputDate, isExamendossierResultaat, isVoortgangsdossierResultaat, origin, userId });
+            const response = await db.getMarks(userId);
+            // TODO: Misschien alleen het ingevoerde cijfer terug krijgen van de database en die terug sturen in response
+            // om overhead te voorkomen.
+            res.status(200).send({ "success": "Mark inserted into database.", "marks": response.rows });
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
+        }
+    } else {    
+        res.status(403).send({ "error": "You are probably not logged in", "not_logged_in": true });
     }
 });
 
