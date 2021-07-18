@@ -4,12 +4,16 @@ import api from "./api";
 import dotenv from "dotenv";
 import sessions from "client-sessions";
 import * as db from "./database";
+import path from "path";
 dotenv.config();
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+if (process.env.NODE_ENV === "development") {
+    app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+}
+
 app.use(express.json());
 app.use(sessions({
     cookieName: "session",
@@ -39,6 +43,13 @@ app.use(async (req, res, next) => {
 });
 
 app.use("/api/", api);
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("frontend/build"));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+    });
+}
 
 app.use((req, res) => {
     res.status(404).send({ "error": "Not found, probably using wrong route" });

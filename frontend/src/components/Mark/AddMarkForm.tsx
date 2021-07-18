@@ -24,7 +24,7 @@ export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
         } else {
             if (!isNaN(Number(mark)) && !isNaN(Number(weighting))) {
 
-                fetch("http://localhost:8000/api/mark", {
+                fetch(util.ENDPOINT + "/api/mark", {
                     method: "POST",
                     credentials: "include",
                     headers: {

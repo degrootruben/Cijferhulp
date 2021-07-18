@@ -33,7 +33,7 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
 
             if (userId !== "") {
                 try {
-                    const response = await fetch("http://localhost:8000/api/mark/" + userId, {
+                    const response = await fetch(util.ENDPOINT + "/api/mark/" + userId, {
                         method: "GET",
                         credentials: "include"
                     });

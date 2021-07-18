@@ -19,3 +19,5 @@ export const deleteCookie = (cookieName: string) => {
     let maxAge = "max-age=0";
     document.cookie = cookieName + "=null;" + maxAge + ";path=/";
 }
+
+export const ENDPOINT = (process.env.NODE_ENV === "production") ? "" : "http://localhost:8000"; 

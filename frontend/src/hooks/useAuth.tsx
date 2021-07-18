@@ -18,7 +18,7 @@ export const useAuth = () => {
 
 const useProvideAuth = () => {
     const login = (email: string, password: string) => {
-        return fetch("http://localhost:8000/api/auth/login", {
+        return fetch(util.ENDPOINT + "/api/auth/login", {
             method: "POST",
             credentials: "include",
             headers: {
@@ -42,7 +42,7 @@ const useProvideAuth = () => {
         if (util.getCookie("user_id") !== "") {
             util.deleteCookie("user_id");
 
-            return fetch("http://localhost:8000/api/auth/logout", {
+            return fetch(util.ENDPOINT + "/api/auth/logout", {
                 method: "GET",
                 credentials: "include",
             }).then(res => res.json())
