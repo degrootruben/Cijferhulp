@@ -17,14 +17,12 @@ interface Mark {
     userId: string
 }
 
-let pool: Pool | null = null;
+let pool: Pool = new Pool();
 
 if (process.env.NODE_ENV === "production") {
     pool = new Pool({
         ssl: { rejectUnauthorized: false }
     });
-} else {
-    pool = new Pool();
 }
 
 
