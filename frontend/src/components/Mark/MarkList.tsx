@@ -55,7 +55,7 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
         }
 
         getMarks();
-    }, [addToast, history]);
+    }, [addToast, history, setMarks]);
 
     return (
         <div className={`${loading ? Classes.SKELETON : "MarkList"}`}>

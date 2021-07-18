@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import { InputGroup, Button, Intent, IToastProps, NumericInput } from "@blueprintjs/core";
 import * as util from "../../util";

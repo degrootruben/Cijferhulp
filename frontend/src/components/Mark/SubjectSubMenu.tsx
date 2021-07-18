@@ -30,7 +30,7 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject }) => {
             setAverage(null);
         }
 
-    }, [marks]);
+    }, [marks, subject]);
 
     return (
         <div className="SubjectSubMenu">
