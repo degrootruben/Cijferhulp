@@ -11,7 +11,7 @@
     "build": "rimraf ./build && npx tsc",
     "start": "set NODE_ENV=production && npm run build && node build/app.js",
     "dev": "set NODE_ENV=development && nodemon",
-    "heroku-postbuild": "set NPM_CONFIG_PRODUCTION=false yarn --cwd frontend && yarn build --cwd frontend"
+    "heroku-postbuild": "set NPM_CONFIG_PRODUCTION=false yarn --cwd frontend && yarn --cwd frontend build"
   },
   "author": "Ruben de Groot",
   "license": "ISC",
