@@ -1,39 +1,40 @@
 import React, { FormEvent, useState } from "react";
 import { Grid } from "@material-ui/core";
-import { InputGroup, ControlGroup, Button, Intent, IToastProps, NumericInput } from "@blueprintjs/core";
+import { InputGroup, Button, Intent, IToastProps, NumericInput } from "@blueprintjs/core";
+import * as util from "../../util";
 
 interface Props {
-    addToast: (toast: IToastProps) => void
+    addToast: (toast: IToastProps) => void,
+    setMarks: React.Dispatch<React.SetStateAction<any[]>>
 }
 
-export const AddMarkForm: React.FC<Props> = ({ addToast }) => {
-    const [noteName, setMarkName] = useState("Cijfer 1");
-    const [note, setMark] = useState(0);
+export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
+    const [mark, setMark] = useState(0);
     const [weighting, setWeighting] = useState(0);
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-    }
+    const [markDescription, setMarkDescription] = useState("Cijfer 1");
+    const [subject, setSubject] = useState("");
 
     const postNote = () => {
-        if (noteName === "" || noteName === " " || noteName === undefined || noteName === null ||
-            note === undefined || note === null ||
-            weighting === undefined || weighting === null) {
-            addToast({ intent: "danger", message: "Vul alle gegevens in!" })
-        } else {
-            if (!isNaN(Number(note)) && !isNaN(Number(weighting))) {
-                console.log("Posting note...");
+        // TODO: Nog meer field toevoegen als input field, deze ook meegeven in de body van de fetch
 
-                fetch("http://localhost:8000/api/note", {
+        if (markDescription === "" || markDescription === " " || markDescription === undefined || markDescription === null ||
+            mark === undefined || mark === null ||
+            weighting === undefined || weighting === null) {
+            addToast({ intent: "danger", message: "Vul tenminste de omschrijving, het cijfer en de weging in!" })
+        } else {
+            if (!isNaN(Number(mark)) && !isNaN(Number(weighting))) {
+
+                fetch("http://localhost:8000/api/mark", {
                     method: "POST",
+                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ noteName, note, weighting })
+                    body: JSON.stringify({ mark, weighting, description: markDescription, subject, origin: "manual", user_id: util.getCookie("user_id") })
                 }).then(res => res.json())
                     .then(data => {
-                        if (data.status === "success") {
-                            addNote();
+                        if (data.success) {
+                            addMark(data.marks);
                         }
                     })
                     .catch(error => console.log(error));
@@ -43,14 +44,13 @@ export const AddMarkForm: React.FC<Props> = ({ addToast }) => {
         }
     }
 
-    const addNote = () => {
-        // TODO: In de response van de request zit een lijst met alle cijfes inclusief gemiddelden
-        // deze moet op het scherm worden gezet
+    const addMark = (responseMarks: any) => {
+        setMarks(responseMarks);
         addToast({ intent: "success", message: "Cijfer toegevoegd!" });
     };
 
     const clearForm = () => {
-        setMarkName("");
+        setMarkDescription("");
         setMark(0);
         setWeighting(0);
     };
@@ -59,19 +59,27 @@ export const AddMarkForm: React.FC<Props> = ({ addToast }) => {
         <div className="AddMarkForm">
             <Grid container spacing={2}>
                 {/* TODO: Cijfer input in een form zetten zodat enter ook genoeg is */}
-                <Grid item xs={6}>
+                <Grid item xs={3}>
                     <InputGroup
-                        className="add-mark-inputfield"
+                        className="addmark-inputfield"
+                        placeholder="Vak"
+                        value={subject}
+                        onChange={(event) => setSubject(event.target.value)}
+                    />
+                </Grid>
+                <Grid item xs={3}>
+                    <InputGroup
+                        className="addmark-inputfield"
                         placeholder="Naam van toets of proefwerk"
-                        value={noteName}
-                        onChange={(e) => setMarkName(e.target.value)}
+                        value={markDescription}
+                        onChange={(event) => setMarkDescription(event.target.value)}
                     />
                 </Grid>
                 <Grid item xs={3}>
                     <NumericInput
-                        className="add-mark-inputfield"
+                        className="addmark-inputfield"
                         placeholder="Cijfer"
-                        value={note}
+                        value={mark}
                         onValueChange={(val) => setMark(val)}
                         max={10}
                         min={0}
@@ -82,7 +90,7 @@ export const AddMarkForm: React.FC<Props> = ({ addToast }) => {
                 </Grid>
                 <Grid item xs={3}>
                     <NumericInput
-                        className="add-mark-inputfield"
+                        className="addmark-inputfield"
                         placeholder="Weging"
                         value={weighting}
                         onValueChange={(val) => setWeighting(val)}
@@ -93,8 +101,9 @@ export const AddMarkForm: React.FC<Props> = ({ addToast }) => {
                         stepSize={1}
                     />
                 </Grid>
-                <Grid item xs={6}><Button intent={Intent.PRIMARY} type="submit" text="Toevoegen" minimal={true} /></Grid>
-                <Grid item xs={6}><Button className="clear-mark-form-button" intent={Intent.DANGER} text="Reset" onClick={clearForm} minimal={true} /></Grid>
+
+                <Grid item xs={6}><Button intent={Intent.PRIMARY} text="Toevoegen" minimal={true} onClick={postNote} /></Grid>
+                <Grid item xs={6}><Button className="clear-markform-button" intent={Intent.DANGER} text="Reset" onClick={clearForm} minimal={true} /></Grid>
             </Grid>
         </div>
     )

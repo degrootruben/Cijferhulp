@@ -1,5 +1,5 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Divider, IToastProps, Card, Elevation, ButtonGroup, Button, Intent } from "@blueprintjs/core";
 import { AddMarkForm } from "./AddMarkForm";
 import { MarkList } from "./MarkList";
@@ -11,14 +11,15 @@ interface Props {
 }
 
 export const MarkPage: React.FC<Props> = ({ addToast }) => {
+    const [marks, setMarks] = useState<Array<any>>([]);
 
     return (
         <Card className="Marks" interactive={false} elevation={Elevation.ZERO}>
             <MarkButtonGroup />
 
-            <AddMarkForm addToast={addToast} />
+            <AddMarkForm setMarks={setMarks} addToast={addToast} />
             <Divider />
-            <MarkList addToast={addToast} />
+            <MarkList marks={marks} setMarks={setMarks} addToast={addToast} />
         </Card>
     )
 }

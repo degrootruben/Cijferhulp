@@ -2,15 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Classes, IToastProps } from "@blueprintjs/core";
 import * as util from "../../util";
+import { SubjectSubMenu } from "./SubjectSubMenu";
 
 interface Props {
-    addToast: (toast: IToastProps) => void
+    addToast: (toast: IToastProps) => void,
+    marks: any[],
+    setMarks: React.Dispatch<React.SetStateAction<any[]>>,
 }
 
-export const MarkList: React.FC<Props> = ({ addToast }) => {
-    const [marks, setMarks] = useState([{}]);
+export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
     const history = useHistory();
     const [loading, setLoading] = useState(false);
+    const [subjects, setSubjects] = useState<Array<string>>([]);
+
+    // Effect that loops through marks to find all subjects and puts them into subjects array
+    useEffect(() => {
+        marks.map((mark: any) => {
+            if (!subjects.includes(mark.subject)) {
+                subjects.push(mark.subject);
+                setSubjects(subjects);
+            }
+        });
+    }, [marks]);
 
     useEffect(() => {
         setLoading(true);
@@ -27,10 +40,9 @@ export const MarkList: React.FC<Props> = ({ addToast }) => {
                     const data = await response.json();
 
                     if (data.not_logged_in === true) {
-                        addToast({ intent: "danger", message: "Je bent niet ingelogd." })
+                        addToast({ intent: "danger", message: "Je bent niet ingelogd" })
                         history.push("/login");
                     } else {
-                        console.log(data.marks);
                         setMarks(data.marks);
                         setLoading(false);
                     }
@@ -47,8 +59,10 @@ export const MarkList: React.FC<Props> = ({ addToast }) => {
 
     return (
         <div className={`${loading ? Classes.SKELETON : "MarkList"}`}>
-            <h1>Marks</h1>
-            {marks.map((mark: any) => <p>{mark.description} {mark.mark} </p>)}
+            <h1>Mijn cijfers</h1>
+            {subjects.map((subject: string) =>
+                <SubjectSubMenu marks={marks} subject={subject} />
+            )}
         </div>
     )
 }
