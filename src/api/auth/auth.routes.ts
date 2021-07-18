@@ -54,7 +54,7 @@ router.post("/register", async (req, res) => {
             if (!(await db.emailExists(email))) {
                 const password = await bcrypt.hash(req.body.password, 10);
                 const date = new Date(Date.now());
-                const createdAt = [date.getFullYear(), date.getMonth(), date.getDay()].join("/") + " " + [date.getHours(), date.getMinutes(), date.getSeconds()].join(":");
+                const createdAt = [date.getFullYear(), date.getMonth(), date.getDate()].join("/") + " " + [date.getHours(), date.getMinutes(), date.getSeconds()].join(":");
 
                 await db.insertUser(id, email, password, name, createdAt);
 
