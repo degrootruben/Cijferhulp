@@ -66,7 +66,7 @@ export const insertUser = async (id: string, email: string, password: string, na
 export const getUserPassword = async (email: string): Promise<string> => {
     try {
         const response = await pool.query("SELECT password FROM users WHERE email=$1", [email]);
-        if(response.rowCount > 0) {
+        if (response.rowCount > 0) {
             const password: string = await response.rows[0].password;
             return password;
         } else {
@@ -90,6 +90,15 @@ export const getUserId = async (email: string): Promise<string> => {
     try {
         const response = await pool.query("SELECT id FROM users WHERE email=$1", [email]);
         return response.rows[0].id;
+    } catch (error) {
+        throw "DB: " + error;
+    }
+}
+
+export const deleteMark = async (id: number) => {
+    try {
+        const response = await pool.query("DELETE FROM marks WHERE id=$1", [id]);
+        return response;
     } catch (error) {
         throw "DB: " + error;
     }
