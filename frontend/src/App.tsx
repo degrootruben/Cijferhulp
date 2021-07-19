@@ -5,6 +5,8 @@ import { Toaster, Toast, IToastProps } from "@blueprintjs/core";
 import { MarkPage } from "./components/Mark/MarkPage";
 import { Navbar } from "./components/Navbar";
 import { Login } from "./components/Login";
+import { Register } from "./components/Register";
+
 
 // TODO: Web app / manifest aanpassen
 
@@ -33,6 +35,7 @@ export const App: React.FC<{}> = () => {
           <Switch>
             <Route exact path="/"><MarkPage addToast={addToast} /></Route>
             <Route exact path="/login"><Login addToast={addToast} /></Route>
+            <Route exact path="/register"><Register addToast={addToast} /></Route>
           </Switch>
 
           <Toaster maxToasts={3} canEscapeKeyClear={true} ref={toaster}>{toasts.map(toast => <Toast {...toast} />)}</Toaster>
