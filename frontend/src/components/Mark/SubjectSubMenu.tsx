@@ -1,13 +1,15 @@
-import { Button, Collapse } from "@blueprintjs/core";
+import { Alignment, Button, Collapse, Intent } from "@blueprintjs/core";
 import React, { useState, useEffect } from "react";
 import { useToggle } from "../../hooks/useToggle";
+import * as util from "../../util";
 
 interface Props {
     marks: Array<any>,
-    subject: string
+    subject: string,
+    deleteNote: (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) => void,
 }
 
-export const SubjectSubMenu: React.FC<Props> = ({ marks, subject }) => {
+export const SubjectSubMenu: React.FC<Props> = ({ marks, subject, deleteNote }) => {
     const [isOpen, setIsOpen] = useToggle(false);
     const [average, setAverage] = useState<number | null>(0);
 
@@ -32,15 +34,14 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject }) => {
 
     return (
         <div className="SubjectSubMenu">
-            <Button minimal={true} rightIcon={"caret-down"} onClick={setIsOpen}><h3 className="subject-name">{subject} {average ? (`: ${average}`) : null}</h3></Button>
+            <Button className="subjectsubmenu-button" alignText={Alignment.LEFT} minimal={true} rightIcon={"caret-down"} onClick={setIsOpen}><h3 className="subject-name">{subject} {average ? (`: ${average}`) : null}</h3></Button>
             <Collapse isOpen={isOpen}>
                 <div className="list-off-marks">
                     {marks.map((mark: any) => {
                         if (subject === mark.subject)
-                            return <p>{mark.description} - {mark.mark} * {mark.weighting}</p>;
+                            return <div className="mark">{mark.description} - {mark.mark} * {mark.weighting} <Button id={mark.id} className="deletemark-button" icon="trash" intent={Intent.DANGER} onClick={event => deleteNote(event)} small={true} minimal={true}/> </div>;
                         return "";
-                    }
-                    )}
+                    })}
                 </div>
             </Collapse>
         </div>

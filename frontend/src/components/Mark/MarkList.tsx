@@ -15,12 +15,30 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
     const [loading, setLoading] = useState(false);
     const [subjects, setSubjects] = useState<Array<string>>([]);
 
+    const deleteNote = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) => {
+        const id = event.currentTarget.id;
+
+        fetch(util.ENDPOINT + "/api/mark/" + id, {
+            method: "DELETE",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ "user_id": util.getCookie("user_id") })
+        }).then(res => res.json())
+            .then(data => setMarks(data.marks))
+            .catch(error => console.error(error));
+        // TODO: Subjects zou weer moeten worden geupdated worden zodat een collpase van 
+        // een vak ook verdwijnt wanneer er geen cijfers van dat vak meer in die collapse zitten.
+    }
+
     // Effect that loops through marks to find all subjects and puts them into subjects array
     useEffect(() => {
+        console.log("marks");
+
         marks.map((mark: any) => {
             if (!subjects.includes(mark.subject)) {
-                subjects.push(mark.subject);
-                setSubjects(subjects);
+                setSubjects([...subjects, mark.subject]);
             }
         });
     }, [marks]);
@@ -61,7 +79,7 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
         <div className={`${loading ? Classes.SKELETON : "MarkList"}`}>
             <h1>Mijn cijfers</h1>
             {subjects.map((subject: string) =>
-                <SubjectSubMenu marks={marks} subject={subject} />
+                <SubjectSubMenu marks={marks} subject={subject} deleteNote={deleteNote} />
             )}
         </div>
     )
