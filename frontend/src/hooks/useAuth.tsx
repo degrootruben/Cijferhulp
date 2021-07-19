@@ -34,8 +34,20 @@ const useProvideAuth = () => {
             });
     };
 
-    const signup = (email: string, password: string) => {
-
+    const register = (email: string, password: string) => {
+        return fetch(util.ENDPOINT + "/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, password })
+        }).then(res => res.json())
+            .then(data => {
+                return data;
+            })
+            .catch(err => {
+                return err;
+            });
     };
 
     const logout = () => {
@@ -61,7 +73,7 @@ const useProvideAuth = () => {
     // Return the user object and auth methods
     return {
         login,
-        signup,
+        register,
         logout
     };
 }
