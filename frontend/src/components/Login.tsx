@@ -17,6 +17,10 @@ export const Login: React.FC<Props> = ({ addToast }) => {
     const [password, setPassword] = useState("");
     const [showPassword, toggleShowPassword] = useToggle(false);
 
+    const redirectToRegister = () => {
+        history.push("/register");
+    }
+
     const submitLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -55,10 +59,11 @@ export const Login: React.FC<Props> = ({ addToast }) => {
                 <Grid container spacing={2}>
                     {/* TODO: Email en password validation */}
                     {/* TODO: Email en password requiren met tooltips component */}
-                    <Grid item xs={12}><H2>Login</H2></Grid>
+                    <Grid item xs={12}><H2>Inloggen</H2></Grid>
                     <Grid item xs={12}><InputGroup placeholder="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} required /></Grid>
                     <Grid item xs={12}><InputGroup placeholder="Wachtwoord" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} rightElement={lockButton(null, null, null)} required /></Grid>
-                    <Grid item xs={12}><Button className="login-button" type="submit" text="Login" intent={Intent.PRIMARY} minimal={true} alignText={Alignment.RIGHT} rightIcon="log-in" /></Grid>
+                    <Grid item xs={12}><Button className="login-button" type="submit" text="Inloggen" intent={Intent.PRIMARY} minimal={true} alignText={Alignment.RIGHT} rightIcon="log-in" /></Grid>
+                    <Grid item xs={12}><Button className="login-button" onClick={redirectToRegister} text="Registreren" intent={Intent.PRIMARY} minimal={true} alignText={Alignment.RIGHT} /></Grid>
                 </Grid>
             </form>
         </div>
