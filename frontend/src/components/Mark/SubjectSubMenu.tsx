@@ -18,12 +18,10 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject }) => {
 
             marks.map((mark: any) => {
                 if (mark.subject === subject) {
-                    sum += parseFloat(mark.mark);
-                    total++;
+                    sum += parseFloat(mark.mark) * parseFloat(mark.weighting);
+                    total += mark.weighting;
                 }
             });
-
-            console.log(sum, total, sum / total);
 
             setAverage(Math.round((sum / total) * 100) / 100);
         } else {
@@ -39,7 +37,7 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject }) => {
                 <div className="list-off-marks">
                     {marks.map((mark: any) => {
                         if (subject === mark.subject)
-                            return <p>{mark.description} - {mark.mark}</p>;
+                            return <p>{mark.description} - {mark.mark} * {mark.weighting}</p>;
                         return "";
                     }
                     )}
