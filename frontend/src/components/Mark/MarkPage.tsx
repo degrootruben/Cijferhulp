@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Divider, IToastProps, Card, Elevation } from "@blueprintjs/core";
+import { Divider, IToastProps } from "@blueprintjs/core";
+import { PageWrapper } from "../PageWrapper";
 import { AddMarkForm } from "./AddMarkForm";
 import { MarkList } from "./MarkList";
 import { MarkButtonGroup } from "./MarkButtonGroup";
@@ -13,12 +14,12 @@ export const MarkPage: React.FC<Props> = ({ addToast }) => {
     const [marks, setMarks] = useState<Array<any>>([]);
 
     return (
-        <Card className="Marks" interactive={false} elevation={Elevation.ZERO}>
+        <PageWrapper>
             <MarkButtonGroup />
 
             <AddMarkForm setMarks={setMarks} addToast={addToast} />
             <Divider />
             <MarkList marks={marks} setMarks={setMarks} addToast={addToast} />
-        </Card>
+        </PageWrapper>
     )
 }

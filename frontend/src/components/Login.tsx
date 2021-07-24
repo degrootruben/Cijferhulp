@@ -4,6 +4,7 @@ import { useToggle } from "../hooks/useToggle";
 import { useHistory } from "react-router-dom";
 import { InputGroup, Intent, Button, Alignment, H2, IToastProps } from "@blueprintjs/core";
 import { Grid } from "@material-ui/core";
+import { PageWrapper } from "./PageWrapper";
 
 interface Props {
     addToast: (toast: IToastProps) => void
@@ -54,7 +55,7 @@ export const Login: React.FC<Props> = ({ addToast }) => {
     }
 
     return (
-        <div className="Login">
+        <PageWrapper className="Login">
             <form onSubmit={submitLogin}>
                 <Grid container spacing={2}>
                     {/* TODO: Email en password validation */}
@@ -66,6 +67,6 @@ export const Login: React.FC<Props> = ({ addToast }) => {
                     <Grid item xs={12}><Button className="login-button" onClick={redirectToRegister} text="Registreren" intent={Intent.PRIMARY} minimal={true} alignText={Alignment.RIGHT} /></Grid>
                 </Grid>
             </form>
-        </div>
+        </PageWrapper>
     )
 }

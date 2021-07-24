@@ -7,11 +7,11 @@ body {
 
 // Big screen
 @media screen and (min-width: 690px) {
-  .Marks {
+  .PageWrapper {
     margin-top: $margin-from-top;
     margin-left: $big-screen-lr-margin;
     margin-right: $big-screen-lr-margin;
-    padding: $inner-tb-padding $inner-lr-padding $inner-tb-padding $inner-lr-padding;
+    padding: $inner-top-padding $inner-lr-padding $inner-tb-padding $inner-lr-padding;
   }
 
   .Login {
@@ -23,10 +23,11 @@ body {
 
 // Small screen
 @media screen and (max-width: 690px) {
-  .Marks {
+  .PageWrapper {
     margin-top: $margin-from-top;
     margin-left: $small-screen-lr-margin;
     margin-right: $small-screen-lr-margin;
+    padding: $inner-top-padding $inner-lr-padding $inner-tb-padding $inner-lr-padding;
   }
 
   .Login {
