@@ -6,11 +6,12 @@ import { MarkPage } from "./components/Mark/MarkPage";
 import { Navbar } from "./components/Navbar";
 import { Login } from "./components/Authentication/Login";
 import { Register } from "./components/Authentication/Register";
+import { DarkmodeContext } from "./context/darkmode-context";
 
 
 // TODO: Web app / manifest aanpassen
 
-export const App: React.FC<{}> = () => {
+export const App = () => {
   const [darkMode, setDarkMode] = useState(true);
   // eslint-disable-next-line
 
@@ -30,17 +31,20 @@ export const App: React.FC<{}> = () => {
     <Router>
       <ProvideAuth>
         <div className={`App ${darkMode ? "bp3-dark" : ""}`}>
-          <Navbar addToast={addToast} darkMode={darkMode} setDarkMode={setDarkMode} />
+          <DarkmodeContext.Provider value={darkMode}>
+            <Navbar addToast={addToast} darkMode={darkMode} setDarkMode={setDarkMode} />
 
-          <Switch>
-            <Route exact path="/"><MarkPage addToast={addToast} /></Route>
-            <Route exact path="/login"><Login addToast={addToast} /></Route>
-            <Route exact path="/register"><Register addToast={addToast} /></Route>
-          </Switch>
+            <Switch>
+              <Route exact path="/"><MarkPage addToast={addToast} /></Route>
+              <Route exact path="/login"><Login addToast={addToast} /></Route>
+              <Route exact path="/register"><Register addToast={addToast} /></Route>
+            </Switch>
 
-          <Toaster maxToasts={3} canEscapeKeyClear={true} ref={toaster}>{toasts.map(toast => <Toast {...toast} />)}</Toaster>
+          </DarkmodeContext.Provider>
         </div>
       </ProvideAuth>
+
+      <Toaster maxToasts={3} canEscapeKeyClear={true} ref={toaster}>{toasts.map(toast => <Toast {...toast} />)}</Toaster>
     </Router>
   );
 }
