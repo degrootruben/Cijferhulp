@@ -12,7 +12,8 @@ interface Props {
 
 export const MarkPage: React.FC<Props> = ({ addToast }) => {
     const [marks, setMarks] = useState<Array<any>>([]);
-
+    // TODO: Pagina pas laden als de cijfers ook geladen zijn
+    
     return (
         <PageWrapper>
             <MarkButtonGroup />

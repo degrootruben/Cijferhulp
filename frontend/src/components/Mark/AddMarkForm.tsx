@@ -11,7 +11,7 @@ interface Props {
 export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
     const [mark, setMark] = useState(0);
     const [weighting, setWeighting] = useState(0);
-    const [markDescription, setMarkDescription] = useState("Cijfer 1");
+    const [markDescription, setMarkDescription] = useState("");
     const [subject, setSubject] = useState("");
 
     const postNote = () => {
@@ -50,6 +50,7 @@ export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
     };
 
     const clearForm = () => {
+        setSubject("");
         setMarkDescription("");
         setMark(0);
         setWeighting(0);
@@ -83,9 +84,9 @@ export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
                         onValueChange={(val) => setMark(val)}
                         max={10}
                         min={0}
-                        majorStepSize={1}
-                        minorStepSize={0.01}
-                        stepSize={0.1}
+                        majorStepSize={2}
+                        minorStepSize={0.1}
+                        stepSize={1}
                     />
                 </Grid>
                 <Grid item xs={3}>

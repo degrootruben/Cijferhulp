@@ -1,7 +1,6 @@
 import { Alignment, Button, Collapse, Intent } from "@blueprintjs/core";
 import React, { useState, useEffect } from "react";
 import { useToggle } from "../../hooks/useToggle";
-import * as util from "../../util";
 
 interface Props {
     marks: Array<any>,
@@ -40,7 +39,7 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject, deleteNote }) 
                     {marks.map((mark: any) => {
                         if (subject === mark.subject)
                             return <div className="mark">{mark.description} - {mark.mark} * {mark.weighting} <Button id={mark.id} className="deletemark-button" icon="trash" intent={Intent.DANGER} onClick={event => deleteNote(event)} small={true} minimal={true}/> </div>;
-                        return "";
+                        return;
                     })}
                 </div>
             </Collapse>
