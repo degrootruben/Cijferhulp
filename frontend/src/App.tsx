@@ -4,8 +4,8 @@ import { ProvideAuth } from "./hooks/useAuth";
 import { Toaster, Toast, IToastProps } from "@blueprintjs/core";
 import { MarkPage } from "./components/Mark/MarkPage";
 import { Navbar } from "./components/Navbar";
-import { Login } from "./components/Login";
-import { Register } from "./components/Register";
+import { Login } from "./components/Authentication/Login";
+import { Register } from "./components/Authentication/Register";
 
 
 // TODO: Web app / manifest aanpassen
