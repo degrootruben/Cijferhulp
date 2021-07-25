@@ -42,7 +42,7 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
     // TODO: Register with confirmation mail
     // TODO: Password checking of het een goed pw is
-    // TODO: Als er een name is opgegeven deze ook meegeven in session token.
+    // TODO: Als er een name is opgegeven deze ook meegeven in session token
 
     if (!req.body.email || !req.body.password) {
         res.status(400).send({ "error": "Fields missing on body" });

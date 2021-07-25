@@ -29,7 +29,18 @@ router.post("/som", async (req, res) => {
     }
 });
 
-/* Get marks from database */
+/* 
+    GET /:user_id
+    Get marks from database
+    
+    Route params:
+        user_id: id of user whose marks the requester is trying to request
+
+    Requirements:
+        session cookie
+        proper authentication
+
+*/
 router.get("/:user_id", requireLogin, async (req, res) => {
     if (req.params.user_id === req.session.user.user_id) {
         const paramsUserId = req.params.user_id;
@@ -43,11 +54,34 @@ router.get("/:user_id", requireLogin, async (req, res) => {
             res.status(500).send({ "error": "Something went wrong while trying to get marks from database" });
         }
     } else {
-        res.status(403).send({ "error": "You are probably not logged in", "not_logged_in": true });
+        res.status(401).send({ "error": "You are probably not logged in", "not_logged_in": true });
     }
 });
 
-/* Post marks to database */
+/*
+    POST /
+    Post mark to database
+
+    Body:
+        mark
+        weighting: weighting of mark
+        exam_weighting: how much the mark weighs for the exams
+        type: type of mark, added because of SOMToday
+        year: school year where the mark belongs to
+        period: school period where the mark belongs to
+        description: title / description of mark
+        subject: subject the mark belongs to
+        subject_abbreviation:
+        is_examendossier_resultaat: boolean which tells whether the mark belongs to the 'examdossier'
+        is_voortgangsdossier_resultaat: boolean which tells whether the mark belongs to the 'voortgangsdossier'
+        origin: where the mark comes from (e.g. SOMToday or webapp)
+        user_id: id of the user the mark belongs to
+
+    Requirements:
+        session cookie
+        proper authentication
+
+*/
 router.post("/", requireLogin, async (req, res) => {
     if (req.body.user_id === req.session.user.user_id) {
         const { mark, weighting, exam_weighting: examWeighting, type, year, period, description, subject, subject_abbreviation: subjectAbbreviation, is_examendossier_resultaat: isExamendossierResultaat, is_voortgangsdossier_resultaat: isVoortgangsdossierResultaat, origin, user_id: userId } = req.body;
@@ -66,10 +100,25 @@ router.post("/", requireLogin, async (req, res) => {
             res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
         }
     } else {    
-        res.status(403).send({ "error": "You are probably not logged in", "not_logged_in": true });
+        res.status(401).send({ "error": "You are probably not logged in", "not_logged_in": true });
     }
 });
 
+/*
+    DELETE /:id
+    Delete a mark from database
+
+    Route params:
+        id: id of mark
+
+    Body:
+        user_id: id of user preforming request
+
+    Requirements:
+        session cookie
+        proper authentication
+
+*/
 router.delete("/:id", requireLogin, async (req, res) => {
     if (req.body.user_id === req.session.user.user_id) {
         const id: number = parseInt(req.params.id);
@@ -83,7 +132,7 @@ router.delete("/:id", requireLogin, async (req, res) => {
             res.status(500).send({ "error": "Something went wrong while deleting mark from database" });
         }
     } else {    
-        res.status(403).send({ "error": "You are probably not logged in", "not_logged_in": true });
+        res.status(401).send({ "error": "You are probably not logged in", "not_logged_in": true });
     }
 });
 
