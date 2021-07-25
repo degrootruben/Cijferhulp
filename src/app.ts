@@ -22,7 +22,6 @@ app.use(sessions({
     activeDuration: 5 * 60 * 1000,
     cookie: {
         httpOnly: true,
-        // secure: true, // TODO: use only when https
         ephemeral: false
     }
 }));
@@ -46,8 +45,8 @@ app.use("/api/", api);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("frontend/build"));
-    app.get("/", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+    app.get(["/", "/*"], (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
     });
 }
 
@@ -58,7 +57,6 @@ app.use((req, res) => {
 
 app.listen(PORT, async () => {
     console.log("Running on port " + PORT);
-    // TODO: Server HTTPS maken voor veiligheid
     // TODO: Error handling netjes maken
     // TODO: Promises in somtoday code mooi maken ook met errors
     // TODO: Vakken importerten vanuit som
