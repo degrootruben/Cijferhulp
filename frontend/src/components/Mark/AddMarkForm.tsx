@@ -58,7 +58,7 @@ export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
 
     return (
         <div className="AddMarkForm">
-            <Grid container spacing={2}>
+            <Grid container spacing={1}>
                 {/* TODO: Cijfer input in een form zetten zodat enter ook genoeg is */}
                 <Grid item xs={3}>
                     <InputGroup
@@ -78,7 +78,7 @@ export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
                 </Grid>
                 <Grid item xs={3}>
                     <NumericInput
-                        className="addmark-inputfield"
+                        className="addmark-inputfield bp3-fill"
                         placeholder="Cijfer"
                         value={mark}
                         onValueChange={(val) => setMark(val)}
@@ -91,7 +91,7 @@ export const AddMarkForm: React.FC<Props> = ({ addToast, setMarks }) => {
                 </Grid>
                 <Grid item xs={3}>
                     <NumericInput
-                        className="addmark-inputfield"
+                        className="addmark-inputfield bp3-fill"
                         placeholder="Weging"
                         value={weighting}
                         onValueChange={(val) => setWeighting(val)}

@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Menu, MenuItem, MenuDivider } from "@blueprintjs/core";
-import { LoginSOM } from "./LoginSOM";
-import { useEffect } from "react";
 
-export const MarkButtonGroupMenu = () => {
-    const [isOpen, setIsOpen] = useState(false);
+interface Props {
+    setSomLoginIsOpen: any
+}
 
-    const importFromSOM = () => {
-        setIsOpen(true);
-    }
-
+export const MarkButtonGroupMenu: React.FC<Props> = ({ setSomLoginIsOpen }) => {
     return (
         <div className="MarkMenu">
             <Menu>
                 <MenuItem text="Importeren" icon="import">
-                    <MenuItem text="Vanuit SOMToday" icon="learning" onClick={importFromSOM} />
+                    <MenuItem text="Vanuit SOMToday" icon="learning" onClick={setSomLoginIsOpen} />
                     <MenuItem text="Vanuit CSV bestand" icon="list" />
                 </MenuItem>
                 <MenuItem text="Alles verwijderen" icon="trash" />
@@ -24,7 +20,6 @@ export const MarkButtonGroupMenu = () => {
                     <MenuItem text="Verwijderen" icon="minus" />
                 </MenuItem>
             </Menu>
-            <LoginSOM isOpen={isOpen} />
         </div>
     )
 }
