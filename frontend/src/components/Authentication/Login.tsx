@@ -43,7 +43,7 @@ export const Login: React.FC<Props> = ({ addToast }) => {
         }
     }
 
-    const lockButton = (type: any, props: any, key: any): JSX.Element | undefined => {
+    const LockButton = () => {
         return (
             <Button
                 icon={showPassword ? "unlock" : "lock"}
@@ -57,12 +57,12 @@ export const Login: React.FC<Props> = ({ addToast }) => {
     return (
         <PageWrapper className="Login">
             <form onSubmit={submitLogin}>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                     {/* TODO: Email en password validation */}
                     {/* TODO: Email en password requiren met tooltips component */}
                     <Grid item xs={12}><H2>Inloggen</H2></Grid>
                     <Grid item xs={12}><InputGroup placeholder="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} required /></Grid>
-                    <Grid item xs={12}><InputGroup placeholder="Wachtwoord" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} rightElement={lockButton(null, null, null)} required /></Grid>
+                    <Grid item xs={12}><InputGroup placeholder="Wachtwoord" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} rightElement={<LockButton/>} required /></Grid>
                     <Grid item xs={12}><Button className="auth-button" type="submit" text="Inloggen" intent={Intent.PRIMARY} minimal={true} alignText={Alignment.RIGHT} rightIcon="log-in" /></Grid>
                     <Grid item xs={12}><Button className="auth-button" onClick={redirectToRegister} text="Registreren" intent={Intent.PRIMARY} minimal={true} alignText={Alignment.RIGHT} /></Grid>
                 </Grid>

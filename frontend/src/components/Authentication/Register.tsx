@@ -43,7 +43,7 @@ export const Register: React.FC<Props> = ({ addToast }) => {
         }
     }
 
-    const lockButton = (type: any, props: any, key: any): JSX.Element | undefined => {
+    const LockButton = () => {
         return (
             <Button
                 icon={showPassword ? "unlock" : "lock"}
@@ -57,13 +57,13 @@ export const Register: React.FC<Props> = ({ addToast }) => {
     return (
         <PageWrapper className="Login">
             <form onSubmit={submitRegister}>
-                <Grid container spacing={2}>
+                <Grid container spacing={1}>
                     {/* TODO: Email en password requiren met tooltips component */}
                     <Grid item xs={12}><H2>Registreren</H2></Grid>
                     <Grid item xs={12}><InputGroup placeholder="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} required /></Grid>
                     <Grid item xs={12}><InputGroup placeholder="Email herhalen" type="email" value={confirmEmail} onChange={e => setConfirmEmail(e.target.value)} required /></Grid>
-                    <Grid item xs={12}><InputGroup placeholder="Wachtwoord" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} rightElement={lockButton(null, null, null)} required /></Grid>
-                    <Grid item xs={12}><InputGroup placeholder="Wachtwoord herhalen" type={showPassword ? "text" : "password"} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} rightElement={lockButton(null, null, null)} required /></Grid>
+                    <Grid item xs={12}><InputGroup placeholder="Wachtwoord" type={showPassword ? "text" : "password"} value={password} onChange={e => setPassword(e.target.value)} rightElement={<LockButton/>} required /></Grid>
+                    <Grid item xs={12}><InputGroup placeholder="Wachtwoord herhalen" type={showPassword ? "text" : "password"} value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} rightElement={<LockButton/>} required /></Grid>
 
                     <Grid item xs={12}><Button className="auth-button" type="submit" text="Registreren" intent={Intent.PRIMARY} minimal={true} alignText={Alignment.RIGHT} /></Grid>
                 </Grid>
