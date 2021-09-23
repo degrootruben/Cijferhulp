@@ -28,13 +28,8 @@ app.use(sessions({
 
 app.use(async (req, res, next) => {
     if (req.session && req.session.user) {
+        req.user = req.session.user;
         
-        const emailExists = await db.emailExists(req.session.user.email);
-
-        if (emailExists) {
-            req.user = req.session.user;
-        }
-
         next();
     } else {
         next();

@@ -42,19 +42,15 @@ router.post("/som", async (req, res) => {
 
 */
 router.get("/:user_id", requireLogin, async (req, res) => {
-    if (req.params.user_id === req.session.user.user_id) {
-        const paramsUserId = req.params.user_id;
+    const paramsUserId = req.params.user_id;
 
-        try {
-            const response = await db.getMarks(paramsUserId);
+    try {
+        const response = await db.getMarks(paramsUserId);
 
-            res.status(200).send({ "succes": "Succesfully retrieved marks", "marks": response.rows });
-        } catch (error) {
-            console.log(error);
-            res.status(500).send({ "error": "Something went wrong while trying to get marks from database" });
-        }
-    } else {
-        res.status(401).send({ "error": "You are probably not logged in", "not_logged_in": true });
+        res.status(200).send({ "succes": "Succesfully retrieved marks", "marks": response.rows });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "error": "Something went wrong while trying to get marks from database" });
     }
 });
 
@@ -83,24 +79,20 @@ router.get("/:user_id", requireLogin, async (req, res) => {
 
 */
 router.post("/", requireLogin, async (req, res) => {
-    if (req.body.user_id === req.session.user.user_id) {
-        const { mark, weighting, exam_weighting: examWeighting, type, year, period, description, subject, subject_abbreviation: subjectAbbreviation, is_examendossier_resultaat: isExamendossierResultaat, is_voortgangsdossier_resultaat: isVoortgangsdossierResultaat, origin, user_id: userId } = req.body;
+    const { mark, weighting, exam_weighting: examWeighting, type, year, period, description, subject, subject_abbreviation: subjectAbbreviation, is_examendossier_resultaat: isExamendossierResultaat, is_voortgangsdossier_resultaat: isVoortgangsdossierResultaat, origin, user_id: userId } = req.body;
 
-        const date = new Date(Date.now());
-        const inputDate = [date.getFullYear(), date.getMonth(), date.getDate()].join("/") + " " + [date.getHours(), date.getMinutes(), date.getSeconds()].join(":");
+    const date = new Date(Date.now());
+    const inputDate = [date.getFullYear(), date.getMonth(), date.getDate()].join("/") + " " + [date.getHours(), date.getMinutes(), date.getSeconds()].join(":");
 
-        try {
-            await db.insertMarks({ mark, weighting, examWeighting, type, year, period, description, subject, subjectAbbreviation, inputDate, isExamendossierResultaat, isVoortgangsdossierResultaat, origin, userId });
-            const response = await db.getMarks(userId);
-            // TODO: Misschien alleen het ingevoerde cijfer terug krijgen van de database en die terug sturen in response
-            // om overhead te voorkomen.
-            res.status(200).send({ "success": "Mark inserted into database.", "marks": response.rows });
-        } catch (error) {
-            console.log(error);
-            res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
-        }
-    } else {    
-        res.status(401).send({ "error": "You are probably not logged in", "not_logged_in": true });
+    try {
+        await db.insertMarks({ mark, weighting, examWeighting, type, year, period, description, subject, subjectAbbreviation, inputDate, isExamendossierResultaat, isVoortgangsdossierResultaat, origin, userId });
+        const response = await db.getMarks(userId);
+        // TODO: Misschien alleen het ingevoerde cijfer terug krijgen van de database en die terug sturen in response
+        // om overhead te voorkomen.
+        res.status(200).send({ "success": "Mark inserted into database.", "marks": response.rows });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
     }
 });
 
@@ -120,20 +112,17 @@ router.post("/", requireLogin, async (req, res) => {
 
 */
 router.delete("/:id", requireLogin, async (req, res) => {
-    if (req.body.user_id === req.session.user.user_id) {
-        const id: number = parseInt(req.params.id);
+    const id: number = parseInt(req.params.id);
 
-        try {
-            await db.deleteMark(id);
-            const response = await db.getMarks(req.body.user_id);
-            res.status(200).send({ "success": "Mark deleted from database", "marks": response.rows });
-        } catch (error) {
-            console.log(error);
-            res.status(500).send({ "error": "Something went wrong while deleting mark from database" });
-        }
-    } else {    
-        res.status(401).send({ "error": "You are probably not logged in", "not_logged_in": true });
+    try {
+        await db.deleteMark(id);
+        const response = await db.getMarks(req.body.user_id);
+        res.status(200).send({ "success": "Mark deleted from database", "marks": response.rows });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ "error": "Something went wrong while deleting mark from database" });
     }
+
 });
 
 export default router;
