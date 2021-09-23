@@ -19,11 +19,11 @@ const getSchoolUUID = (schoolName: string | undefined) => {
                     break;
                 }
             }
-        });
+        })
+    .catch(err => { throw err });
 }
 
-export const fetchAuthorization = async (schoolName: string | undefined, username: string | undefined, password: string | undefined): Promise<void | { accessToken: any; baseURL: any; }> => {
-    const schoolUUID = await getSchoolUUID(schoolName);
+export const fetchAuthorization = async (schoolUUID: string | undefined, username: string | undefined, password: string | undefined): Promise<void | { accessToken: any; baseURL: any; }> => {
 
     const body: any = {
         "grant_type": "password",
@@ -50,6 +50,7 @@ export const fetchAuthorization = async (schoolName: string | undefined, usernam
         body: formBody
     }).then(res => res.json())
         .then(data => {
+            console.log(data);
             return { accessToken: data.access_token, baseURL: data.somtoday_api_url };
         })
         .catch(err => console.log(err));
@@ -75,8 +76,8 @@ export const getUserID = (baseURL: string, accessToken: string): Promise<number>
 
 type MarkParameters = {
     normal: boolean,
-    average: boolean,
-    year: number
+    average?: boolean,
+    year?: number
 };
 
 export const getMarks = async (baseURL: string, accessToken: string, userID: number, parameters: MarkParameters): Promise<Array<Object>> => {
