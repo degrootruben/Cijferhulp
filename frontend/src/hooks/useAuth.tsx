@@ -66,7 +66,7 @@ const useProvideAuth = () => {
                 });
         } else {
             // TODO: Hier goeie error object soort throwen
-            throw { "not_logged_in": true };
+            throw new Error("not_logged_in");
         }
     };
 
