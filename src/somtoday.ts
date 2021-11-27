@@ -82,7 +82,7 @@ type MarkParameters = {
 
 export const getMarks = async (baseURL: string, accessToken: string, userID: number, parameters: MarkParameters): Promise<Array<Object>> => {
     // TODO: Opstellen hoe een grade eruit ziet in de database, dus welke waarden etc.
-    
+
     let responseLength: number = 0;
     let totalMarkList: Array<Object> = [];
     let filteredMarkList: Array<Object> = [];
@@ -113,31 +113,31 @@ export const getMarks = async (baseURL: string, accessToken: string, userID: num
         if (mark.leerjaar == parameters.year) {
             if (mark.type == "Toetskolom") {
                 if (parameters.normal == true) {
-                    filteredMarkList.push({ "mark": mark.geldendResultaat, 
-                                            "weighting": mark.weging, 
-                                            "exam_weighting": mark.examenWeging, 
-                                            "type": mark.type, 
-                                            "year": mark.leerjaar, 
-                                            "period": mark.periode, 
-                                            "description": mark.omschrijving, 
-                                            "subject": mark.vak.naam, 
-                                            "subject_abbreviation": mark.vak.afkorting, 
-                                            "input_date": mark.datumInvoer, 
-                                            "is_examendossier_resultaat": mark.isExamendossierResultaat, 
-                                            "is_voortgangsdossier_resultaat": mark.isVoortgangsdossierResultaat, 
+                    filteredMarkList.push({ "mark": mark.geldendResultaat,
+                                            "weighting": mark.weging,
+                                            "exam_weighting": mark.examenWeging,
+                                            "type": mark.type,
+                                            "year": mark.leerjaar,
+                                            "period": mark.periode,
+                                            "description": mark.omschrijving,
+                                            "subject": mark.vak.naam,
+                                            "subject_abbreviation": mark.vak.afkorting,
+                                            "input_date": mark.datumInvoer,
+                                            "is_examendossier_resultaat": mark.isExamendossierResultaat,
+                                            "is_voortgangsdossier_resultaat": mark.isVoortgangsdossierResultaat,
                                             "origin": "som" });
                 }
             } else if (mark.type == "RapportGemiddeldeKolom") {
                 if (parameters.average == true) {
-                    filteredMarkList.push({ "mark": mark.geldendResultaat, 
-                                            "type": mark.type, 
-                                            "year": mark.leerjaar, 
-                                            "period": mark.periode, 
-                                            "subject": mark.vak.naam, 
-                                            "subject_abbreviation": mark.vak.afkorting, 
-                                            "input_date": mark.datumInvoer, 
-                                            "is_examendossier_resultaat": mark.isExamendossierResultaat, 
-                                            "is_voortgangsdossier_resultaat": mark.isVoortgangsdossierResultaat, 
+                    filteredMarkList.push({ "mark": mark.geldendResultaat,
+                                            "type": mark.type,
+                                            "year": mark.leerjaar,
+                                            "period": mark.periode,
+                                            "subject": mark.vak.naam,
+                                            "subject_abbreviation": mark.vak.afkorting,
+                                            "input_date": mark.datumInvoer,
+                                            "is_examendossier_resultaat": mark.isExamendossierResultaat,
+                                            "is_voortgangsdossier_resultaat": mark.isVoortgangsdossierResultaat,
                                             "origin": "som" });
                 }
             }
