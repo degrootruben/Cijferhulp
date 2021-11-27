@@ -24,9 +24,8 @@ export const Navbar: React.FC<Props> = ({ addToast, darkMode, setDarkMode }) => 
                 addToast({ "intent": "danger", "message": "Er ging iets mis tijdens het uitloggen" });
             }
         } catch (error) {
-            if (error.not_logged_in === true) {
-                return;
-            }
+            // TODO: Hier beter error handlen
+            return;
         }
     }
 
