@@ -1,0 +1,15 @@
+# Docker compose file for starting testing postgres database
+
+version: "3.8"
+services:
+    db:
+        image: postgres
+        environment:
+            POSTGRES_PASSWORD: ${PGPASSWORD}
+            POSTGRES_USER: ${PGUSER}
+            POSTGRES_DB: ${PGDATABASE}
+        ports:
+            - "${PGPORT}:${PGPORT}"
+
+
+

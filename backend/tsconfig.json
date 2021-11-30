@@ -73,6 +73,7 @@
   "exclude": [
     "frontend",
     "node_modules",
-    "build"
+    "build",
+    "tests"
   ]
 }

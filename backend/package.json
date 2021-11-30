@@ -7,11 +7,16 @@
     "node": "14.x"
   },
   "scripts": {
+    "test:up": "docker-compose -f tests/api-tests/docker-compose-test-database.yml --env-file .env up -d && export NODE_ENV=testing && nodemon",
     "test": "jest",
+    "test:down": "docker-compose -f tests/api-tests/docker-compose-test-database.yml --env-file .env down",
+
     "build": "rimraf ./build && npx -p typescript tsc",
     "start": "set NODE_ENV=production && npm run build && node build/app.js",
-    "dev": "export NODE_ENV=development && nodemon",
-    "heroku-postbuild": "set NPM_CONFIG_PRODUCTION=false && yarn --cwd frontend && yarn --cwd frontend build"
+    "heroku-postbuild": "set NPM_CONFIG_PRODUCTION=false && yarn --cwd frontend && yarn --cwd frontend build",
+
+    "dev": "docker-compose up -d && export NODE_ENV=development && nodemon",
+    "dev:down": "docker-compose down"
   },
   "author": "Ruben de Groot",
   "license": "ISC",
