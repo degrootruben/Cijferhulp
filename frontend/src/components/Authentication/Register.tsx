@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from "../../hooks/useAuth";
 import { useToggle } from "../../hooks/useToggle";
+import { useHistory } from "react-router-dom";
 import { InputGroup, Intent, Button, Alignment, H2, IToastProps } from "@blueprintjs/core";
 import { Grid } from "@material-ui/core";
 import { PageWrapper } from "../PageWrapper";
@@ -11,6 +12,7 @@ interface Props {
 
 export const Register: React.FC<Props> = ({ addToast }) => {
     const auth = useAuth();
+    const history = useHistory();
 
     const [email, setEmail] = useState("");
     const [confirmEmail, setConfirmEmail] = useState("");
@@ -32,6 +34,7 @@ export const Register: React.FC<Props> = ({ addToast }) => {
 
                 if (data.success) {
                     addToast({ intent: "success", message: "Succesvol geregistreerd!" });
+                    history.push("/");
                 } else if (data.error) {
                     addToast({ intent: "danger", message: "Er ging iets mis tijdens het registreren, probeer het later nog een keer" });
                 }
