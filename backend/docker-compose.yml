@@ -8,21 +8,14 @@ services:
             POSTGRES_PASSWORD: ${PGPASSWORD}
             POSTGRES_USER: ${PGUSER}
             POSTGRES_DB: ${PGDATABASE}
-        volumes: 
+        volumes:
             - pgdata:/var/lib/postgresql/data
         ports:
-            - "5432:5432"
-    pgadmin:
-        image: dpage/pgadmin4
-        environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-        ports:
-            - "80:80"
+            - "${PGPORT}:${PGPORT}"
 
-volumes: 
+volumes:
     pgdata:
 
-    
+
 
 

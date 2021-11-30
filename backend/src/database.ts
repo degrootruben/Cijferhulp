@@ -1,4 +1,7 @@
 import { Pool } from "pg";
+// TODO: Dit met dotenv mooier maken, en miss een connect functie maken, of door het oo te maken
+import dotenv from "dotenv";
+dotenv.config();
 
 interface Mark {
     mark: number,
@@ -22,6 +25,10 @@ let pool: Pool = new Pool();
 if (process.env.NODE_ENV === "production") {
     pool = new Pool({
         ssl: { rejectUnauthorized: false }
+    });
+} else if (process.env.NODE_ENV === "testing") {
+    pool = new Pool({
+        port: parseInt(process.env.PGTESTPORT || "1234")
     });
 }
 

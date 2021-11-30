@@ -20,12 +20,12 @@ router.post("/login", async (req, res) => {
                 const userId = await db.getUserId(email);
                 const user = { email, user_id: userId };
                 req.session.user = user;
-                
+
                 res.cookie("user_id", userId, {
                     signed: false,
                     maxAge: 120 * 60 * 1000,
                     expires: new Date(new Date().setHours(new Date().getHours() + 2)),
-                    // TODO: set this when https: secure: true 
+                    // TODO: set this when https: secure: true
                 });
                 res.status(200).send({ "success": "User succesfully logged in" });
             } else {
@@ -61,7 +61,7 @@ router.post("/register", async (req, res) => {
                 const userId = id;
                 const user = { email, user_id: userId };
                 req.session.user = user;
-                
+
                 res.status(200).send({ "success": "New user registered" });
             } else {
                 res.status(400).send({ "error": "A user with that email address already exists" });
