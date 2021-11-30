@@ -28,7 +28,7 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
         }).then(res => res.json())
             .then(data => setMarks(data.marks))
             .catch(error => console.error(error));
-        // TODO: Subjects zou weer moeten worden geupdated worden zodat een collpase van 
+        // TODO: Subjects zou weer moeten worden geupdated worden zodat een collpase van
         // een vak ook verdwijnt wanneer er geen cijfers van dat vak meer in die collapse zitten.
     }
 
@@ -36,12 +36,12 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
     useEffect(() => {
         console.log("marks");
 
-        marks.map((mark: any) => {
+        marks.forEach((mark: any) => {
             if (!subjects.includes(mark.subject)) {
                 setSubjects([...subjects, mark.subject]);
             }
         });
-    }, [marks]);
+    }, [marks, subjects]);
 
     useEffect(() => {
         setLoading(true);

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from "../../hooks/useAuth";
 import { useToggle } from "../../hooks/useToggle";
-import { useHistory } from "react-router-dom";
 import { InputGroup, Intent, Button, Alignment, H2, IToastProps } from "@blueprintjs/core";
 import { Grid } from "@material-ui/core";
 import { PageWrapper } from "../PageWrapper";
@@ -11,7 +10,6 @@ interface Props {
 }
 
 export const Register: React.FC<Props> = ({ addToast }) => {
-    const history = useHistory();
     const auth = useAuth();
 
     const [email, setEmail] = useState("");

@@ -2,7 +2,6 @@ import React from "react";
 import { ButtonGroup, Button, Intent } from "@blueprintjs/core";
 import { Popover2 } from "@blueprintjs/popover2";
 import { MarkButtonGroupMenu as MarkMenu } from "./MarkMenu";
-import { useToggle } from "../../hooks/useToggle";
 
 interface Props {
     setSomLoginIsOpen: any

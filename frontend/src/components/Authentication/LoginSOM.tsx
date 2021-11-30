@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, FormEvent, ChangeEventHandler } from "react";
-import { Dialog, Classes, InputGroup, Intent, Button, HTMLSelect, IRef } from "@blueprintjs/core";
+import React, { useState, useEffect, useRef, FormEvent } from "react";
+import { Dialog, Classes, InputGroup, Intent, Button, HTMLSelect } from "@blueprintjs/core";
 import { DarkmodeContext } from "../../context/darkmode-context";
 import { ReactComponent as SomTodayLogo } from "../../img/somtoday-logo.svg";
 import { useToggle } from "../../hooks/useToggle";
@@ -42,7 +42,7 @@ export const LoginSOM: React.FC<Props> = ({ isOpen, setIsOpen }) => {
             }
 
         })();
-    }, [isOpen]);
+    }, [isOpen, toggleSchoolsLoaded]);
 
     const loginToSom = async (e: FormEvent) => {
         e.preventDefault();

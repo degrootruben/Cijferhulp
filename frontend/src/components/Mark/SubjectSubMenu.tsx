@@ -17,7 +17,7 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject, deleteNote }) 
             let sum = 0;
             let total = 0;
 
-            marks.map((mark: any) => {
+            marks.forEach((mark: any) => {
                 if (mark.subject === subject) {
                     sum += parseFloat(mark.mark) * parseFloat(mark.weighting);
                     total += mark.weighting;
@@ -39,7 +39,7 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject, deleteNote }) 
                     {marks.map((mark: any) => {
                         if (subject === mark.subject)
                             return <div className="mark">{mark.description} - {mark.mark} * {mark.weighting} <Button id={mark.id} className="deletemark-button" icon="trash" intent={Intent.DANGER} onClick={event => deleteNote(event)} small={true} minimal={true}/> </div>;
-                        return;
+                        return null;
                     })}
                 </div>
             </Collapse>
