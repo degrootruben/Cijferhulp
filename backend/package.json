@@ -7,7 +7,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "rimraf ./build && npx -p typescript tsc",
     "start": "set NODE_ENV=production && npm run build && node build/app.js",
     "dev": "export NODE_ENV=development && nodemon",
@@ -24,8 +24,10 @@
     "@types/node-fetch": "^2.5.10",
     "@types/pg": "^8.6.0",
     "@types/uuid": "^8.3.1",
+    "jest": "^27.4.2",
     "nodemon": "^2.0.15",
     "rimraf": "^3.0.2",
+    "supertest": "^6.1.6",
     "ts-node": "^10.4.0",
     "ts-node-dev": "^1.1.8"
   },
@@ -37,8 +39,19 @@
     "express": "^4.17.1",
     "node-fetch": "^2.6.6",
     "pg": "^8.7.1",
+    "typescript": "^4.3.4",
     "uuid": "^8.3.2",
-    "yarn": "^1.22.10",
-    "typescript": "^4.3.4"
+    "yarn": "^1.22.10"
+  },
+
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "./src/",
+      "./frontend"
+    ]
   }
 }
+
+
