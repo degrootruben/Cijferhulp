@@ -38,7 +38,7 @@ export const SubjectSubMenu: React.FC<Props> = ({ marks, subject, deleteNote }) 
                 <div className="list-off-marks">
                     {marks.map((mark: any) => {
                         if (subject === mark.subject)
-                            return <div className="mark">{mark.description} - {mark.mark} * {mark.weighting} <Button id={mark.id} className="deletemark-button" icon="trash" intent={Intent.DANGER} onClick={event => deleteNote(event)} small={true} minimal={true}/> </div>;
+                            return <div className="mark">{mark.description} - {mark.mark} * {mark.weighting} <Button id={mark.id} className="deletemark-button" icon="trash" intent={Intent.DANGER} onClick={(event: any) => deleteNote(event)} small={true} minimal={true}/> </div>;
                         return null;
                     })}
                 </div>
