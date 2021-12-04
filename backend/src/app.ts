@@ -10,21 +10,23 @@ dotenv.config();
 const PORT = process.env.PORT || 8000;
 const app = express();
 
-if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "testing") {
+if (process.env.NODE_ENV !== "production") {
     app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 }
 
 app.use(express.json());
-app.use(sessions({
+
+let session: sessions.SessionOptions = {
     cookieName: "session",
     secret: process.env.SESSION_SECRET || "SECRET",
     duration: 120 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
     cookie: {
         httpOnly: true,
-        ephemeral: false
+        ephemeral: false,
     }
-}));
+};
+app.use(sessions(session));
 
 app.use(async (req, res, next) => {
     if (req.session && req.session.user) {
@@ -39,6 +41,10 @@ app.use(async (req, res, next) => {
 app.use("/api/", api);
 
 if (process.env.NODE_ENV === "production") {
+    if (session.cookie) {
+        session.cookie.secure = true;
+    }
+
     app.use(express.static("frontend/build"));
     app.get(["/", "/*"], (req, res) => {
         res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
