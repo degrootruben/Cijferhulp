@@ -2,6 +2,7 @@ import express from "express";
 import * as somtoday from "../../somtoday";
 import * as db from "../../database";
 import { requireLogin } from "../../middlewares";
+import { status } from "../httpStatusCodes";
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ router.post("/som", async (req, res) => {
     const { school, username, password, normal, average, year } = req.body;
 
     if (!school || !username || !password || !normal || !average || !year) {
-        res.status(400).send({ "error": "Fields missing in body" });
+        res.status(status.BAD_REQUEST).send({ "error": "Fields missing in body" });
         res.end();
     } else {
         try {
@@ -21,18 +22,18 @@ router.post("/som", async (req, res) => {
             const userID = await somtoday.getUserID(baseURL, accessToken);
             const marks = await somtoday.getMarks(baseURL, accessToken, userID, { normal, average, year });
 
-            res.status(200).send(JSON.stringify(marks));
+            res.status(status.OK).send(JSON.stringify(marks));
         } catch (error) {
             console.log(error);
-            res.status(500).send({ "error": "Something went wrong while trying to fetch marks from SomToday" });
+            res.status(status.INTERNAL_SERVER).send({ "error": "Something went wrong while trying to fetch marks from SomToday" });
         }
     }
 });
 
-/* 
+/*
     GET /:user_id
     Get marks from database
-    
+
     Route params:
         user_id: id of user whose marks the requester is trying to request
 
@@ -47,10 +48,10 @@ router.get("/:user_id", requireLogin, async (req, res) => {
     try {
         const response = await db.getMarks(paramsUserId);
 
-        res.status(200).send({ "succes": "Succesfully retrieved marks", "marks": response.rows });
+        res.status(status.OK).send({ "succes": "Succesfully retrieved marks", "marks": response.rows });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ "error": "Something went wrong while trying to get marks from database" });
+        res.status(status.INTERNAL_SERVER).send({ "error": "Something went wrong while trying to get marks from database" });
     }
 });
 
@@ -89,10 +90,10 @@ router.post("/", requireLogin, async (req, res) => {
         const response = await db.getMarks(userId);
         // TODO: Misschien alleen het ingevoerde cijfer terug krijgen van de database en die terug sturen in response
         // om overhead te voorkomen.
-        res.status(200).send({ "success": "Mark inserted into database.", "marks": response.rows });
+        res.status(status.OK).send({ "success": "Mark inserted into database.", "marks": response.rows });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ "error": "Something went wrong while inserting mark to database." });
+        res.status(status.INTERNAL_SERVER).send({ "error": "Something went wrong while inserting mark to database." });
     }
 });
 
@@ -117,10 +118,10 @@ router.delete("/:id", requireLogin, async (req, res) => {
     try {
         await db.deleteMark(id);
         const response = await db.getMarks(req.body.user_id);
-        res.status(200).send({ "success": "Mark deleted from database", "marks": response.rows });
+        res.status(status.OK).send({ "success": "Mark deleted from database", "marks": response.rows });
     } catch (error) {
         console.log(error);
-        res.status(500).send({ "error": "Something went wrong while deleting mark from database" });
+        res.status(status.INTERNAL_SERVER).send({ "error": "Something went wrong while deleting mark from database" });
     }
 
 });

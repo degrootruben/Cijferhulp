@@ -2,6 +2,7 @@ import express from "express";
 import fetch from "node-fetch";
 import { requireLogin } from "../../middlewares";
 import { fetchAuthorization, getUserID, getMarks } from "../../somtoday";
+import { status } from "../httpStatusCodes";
 
 const router = express.Router();
 
@@ -24,9 +25,9 @@ router.get("/schools", requireLogin, async (req, res) => {
             schools.push({ naam: school.naam, uuid: school.uuid });
         });
 
-        res.status(200).send({ "success": "Succesfully retrieved schools from Somtoday", schools });
+        res.status(status.OK).send({ "success": "Succesfully retrieved schools from Somtoday", schools });
     } catch (err) {
-        res.status(500).send({ "error": "Something went wrong while fetching schools from Somtoday" });
+        res.status(status.INTERNAL_SERVER).send({ "error": "Something went wrong while fetching schools from Somtoday" });
     }
 });
 
@@ -43,7 +44,7 @@ router.post("/login", requireLogin, async (req, res) => {
         console.log(marks);
 
     } catch (err) {
-        res.status(500).send({ "error": "Something went wrong while authenticating user with Somtoday" });
+        res.status(status.INTERNAL_SERVER).send({ "error": "Something went wrong while authenticating user with Somtoday" });
     }
 });
 

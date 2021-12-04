@@ -2,6 +2,7 @@ import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import * as db from "../../database";
 import bcrypt from "bcrypt";
+import { status } from "../httpStatusCodes";
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.post("/login", async (req, res) => {
 
     try {
         if (!(await db.emailExists(email))) {
-            res.status(400).send(clientSideError);
+            res.status(status.BAD_REQUEST).send(clientSideError);
         } else {
             const dbPassword = await db.getUserPassword(email);
 
@@ -27,14 +28,14 @@ router.post("/login", async (req, res) => {
                     expires: new Date(new Date().setHours(new Date().getHours() + 2)),
                     // TODO: set this when https: secure: true
                 });
-                res.status(200).send({ "success": "User succesfully logged in" });
+                res.status(status.OK).send({ "success": "User succesfully logged in" });
             } else {
-                res.status(400).send(clientSideError);
+                res.status(status.BAD_REQUEST).send(clientSideError);
             }
         }
     } catch (error) {
         console.error(error);
-        res.status(500).send({ "error": "Something went wrong while trying to login user", "server_side": true });
+        res.status(status.INTERNAL_SERVER).send({ "error": "Something went wrong while trying to login user", "server_side": true });
     }
 });
 
@@ -45,7 +46,7 @@ router.post("/register", async (req, res) => {
     // TODO: Als er een name is opgegeven deze ook meegeven in session token
 
     if (!req.body.email || !req.body.password) {
-        res.status(400).send({ "error": "Fields missing on body" });
+        res.status(status.BAD_REQUEST).send({ "error": "Fields missing on body" });
     } else {
         try {
             const id = uuidv4();
@@ -62,13 +63,13 @@ router.post("/register", async (req, res) => {
                 const user = { email, user_id: userId };
                 req.session.user = user;
 
-                res.status(200).send({ "success": "New user registered" });
+                res.status(status.OK).send({ "success": "New user registered" });
             } else {
-                res.status(400).send({ "error": "A user with that email address already exists" });
+                res.status(status.INTERNAL_SERVER).send({ "error": "A user with that email address already exists" });
             }
         } catch (error) {
             console.error(error);
-            res.status(500).send({ "error": "Error while trying to register user" });
+            res.status(status.INTERNAL_SERVER).send({ "error": "Error while trying to register user" });
         }
     }
 });
@@ -76,7 +77,7 @@ router.post("/register", async (req, res) => {
 /* Logout user */
 router.get("/logout", (req, res) => {
     req.session.reset();
-    res.status(200).send({ "success": "User logged out" });
+    res.status(status.OK).send({ "success": "User logged out" });
 });
 
 export default router;
