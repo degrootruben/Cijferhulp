@@ -41,6 +41,8 @@ app.use(async (req, res, next) => {
 app.use("/", api);
 
 if (process.env.NODE_ENV === "production") {
+    app.use(cors({ origin: "https://cijferhulp.com", credentials: true }));
+
     if (session.cookie) {
         //session.cookie.secure = true; -> dit aan zetten wanneer ik https op heroku heb
 
