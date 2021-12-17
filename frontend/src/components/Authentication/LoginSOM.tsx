@@ -33,7 +33,7 @@ export const LoginSOM: React.FC<Props> = ({ isOpen, setIsOpen }) => {
                 return;
             }
 
-            const response = await fetch(ENDPOINT + "/api/somtoday/schools", { credentials: "include" });
+            const response = await fetch(ENDPOINT + "/somtoday/schools", { credentials: "include" });
             const data = await response.json();
 
             if (data.success) {
@@ -51,7 +51,7 @@ export const LoginSOM: React.FC<Props> = ({ isOpen, setIsOpen }) => {
 
         try {
             console.log(uuid);
-            // const response = await fetch(ENDPOINT + "/api/somtoday/login", {
+            // const response = await fetch(ENDPOINT + "/somtoday/login", {
             //     method: "POST",
             //     credentials: "include",
             //     headers: {

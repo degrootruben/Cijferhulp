@@ -32,5 +32,8 @@ Alles onder `frontend/` is voor de React frontend, gemaakt met Create-React-App
 #### Development
 Start de frontend in dev mode met `cd frontend && yarn start`.
 
+## Production
+frontend wordt gehost op netlify
+backend + postgresql wordt gehost op heroku
 
 

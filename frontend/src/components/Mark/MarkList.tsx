@@ -18,7 +18,7 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
     const deleteNote = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) => {
         const id = event.currentTarget.id;
 
-        fetch(util.ENDPOINT + "/api/mark/" + id, {
+        fetch(util.ENDPOINT + "/mark/" + id, {
             method: "DELETE",
             credentials: "include",
             headers: {
@@ -51,7 +51,7 @@ export const MarkList: React.FC<Props> = ({ addToast, marks, setMarks }) => {
 
             if (userId !== "") {
                 try {
-                    const response = await fetch(util.ENDPOINT + "/api/mark/" + userId, {
+                    const response = await fetch(util.ENDPOINT + "/mark/" + userId, {
                         method: "GET",
                         credentials: "include"
                     });

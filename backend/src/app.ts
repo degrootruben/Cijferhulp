@@ -38,17 +38,17 @@ app.use(async (req, res, next) => {
     }
 });
 
-app.use("/api/", api);
+app.use("/", api);
 
 if (process.env.NODE_ENV === "production") {
     if (session.cookie) {
         session.cookie.secure = true;
     }
 
-    app.use(express.static("frontend/build"));
-    app.get(["/", "/*"], (req, res) => {
-        res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
-    });
+    // app.use(express.static("frontend/build"));
+    // app.get(["/", "/*"], (req, res) => {
+    //     res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
+    // });
 }
 
 app.use((req, res) => {
