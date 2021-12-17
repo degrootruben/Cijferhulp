@@ -20,4 +20,4 @@ export const deleteCookie = (cookieName: string) => {
     document.cookie = cookieName + "=null;" + maxAge + ";path=/";
 }
 
-export const ENDPOINT = (process.env.NODE_ENV === "production") ? "" : "http://localhost:8000";
+export const ENDPOINT = (process.env.NODE_ENV === "production") ? "api.cijferhulp.com" : "http://localhost:8000";

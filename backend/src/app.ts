@@ -42,7 +42,8 @@ app.use("/", api);
 
 if (process.env.NODE_ENV === "production") {
     if (session.cookie) {
-        session.cookie.secure = true;
+        //session.cookie.secure = true; -> dit aan zetten wanneer ik https op heroku heb
+
     }
 
     // app.use(express.static("frontend/build"));
