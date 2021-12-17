@@ -34,6 +34,7 @@ Start de frontend in dev mode met `cd frontend && yarn start`.
 
 ## Production
 frontend wordt gehost op netlify
-backend + postgresql wordt gehost op heroku
+backend op een app in digitalocean
+postgres in heroku
 
 

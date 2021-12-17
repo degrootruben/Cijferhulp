@@ -11,8 +11,8 @@
     "test": "jest",
     "test:down": "docker-compose -f tests/api-tests/docker-compose-test-database.yml --env-file .env down",
 
-    "build": "rimraf ./build && npx -p typescript tsc",
-    "start": "set NODE_ENV=production && npm run build && node build/app.js",
+    "build": "set NODE_ENV=production && rimraf ./build && npx -p typescript tsc",
+    "start": "node build/app.js",
 
     "dev": "docker-compose up -d && export NODE_ENV=development && nodemon",
     "dev:down": "docker-compose down"
